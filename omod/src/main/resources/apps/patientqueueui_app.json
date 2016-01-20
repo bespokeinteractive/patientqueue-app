@@ -1,0 +1,18 @@
+[
+  {
+    "id": "patientqueueui.regApp",        // unique id for this app, unique across all apps, typically starts with your module id
+    "description": "App for managing Registration operations",        // plain text or a message code (not displayed to end-users),
+    "order": 3,
+    "extensions": [
+      {
+        "id": "patientqueueui.registrationAppHomepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "Patient Queue ",        // text or message code (this is shown to the user)
+        "url": "patientqueueui/chooseOpd.page",        // clicking on the app icon goes to this link
+        "icon": "icon-tasks",        // see the uicommons style guide icons
+        "requiredPrivilege": "App: patientqueueui.activeVisits"        // require this privilege to show the link
+      }
+    ]
+  }
+]
