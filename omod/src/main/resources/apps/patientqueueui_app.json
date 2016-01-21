@@ -10,7 +10,7 @@
         "type": "link",
         "label": "Patient Queue ",        // text or message code (this is shown to the user)
         "url": "patientqueueui/chooseOpd.page",        // clicking on the app icon goes to this link
-        "icon": "icon-tasks",        // see the uicommons style guide icons
+        "icon": "icon-list-ol",        // see the uicommons style guide icons
         "requiredPrivilege": "App: patientqueueui.activeVisits"        // require this privilege to show the link
       }
     ]
