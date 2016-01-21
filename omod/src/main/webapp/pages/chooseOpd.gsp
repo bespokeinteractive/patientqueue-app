@@ -1,6 +1,6 @@
 <%
 	ui.decorateWith("appui", "standardEmrPage")
-	def props = ["patientIdentifier", "patientName", "birthDate", "sex", "status", "visitStatus"]
+	def props = ["patientIdentifier", "patientName", "age", "sex", "status", "visitStatus", "action"]
 %>
 <script type="text/javascript">
     var breadcrumbs = [
@@ -48,9 +48,14 @@ jq(function() {
         for (index in data) {
             var item = data[index];
             var row = '<tr>';
-            <% props.each { %>
+            <% props.each {
+               if(it == props.last()){
+                  def pageLink = ui.pageLink("patientdashboardui", "main") %>
+                  row += '<td> <a href="${pageLink}?patientId=' + item.patient.id + '&opdId=' + jq("#opd-choice").val() + '"><i class="icon-stethoscope small"></i></a> </td>';
+               <% } else {%>
                 row += '<td>' + item.${ it } + '</td>';
-            <% } %>
+               <% }
+               } %>
             row += '</tr>';
             tbody.append(row);
         }
@@ -89,11 +94,12 @@ jq(function() {
 			<th>Gender</th>
 			<th>Status</th>
 			<th>Visit Status</th>
+            <th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td colspan="6">No Patients in queue</td>
+			<td colspan="7">No Patients in queue</td>
 		</tr>
 	</tbody>
 </table>

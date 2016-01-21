@@ -23,10 +23,10 @@ public class PatientQueueFragmentController {
 		String conceptAnswerName = queueAnswer.getConcept().getName().toString();
 		if (conceptAnswerName.equals("TRIAGE")) {
 			List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue(query.trim(), opdId, "", 0, 0);
-			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "birthDate", "sex", "status", "visitStatus");
+			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id");
 		} else if (conceptAnswerName.equals("OPD WARD")) {
 			List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue(query.trim(), opdId, "", 0, 0);
-			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "birthDate", "sex", "status", "visitStatus");
+			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id");
 		}
 		return null;
 	}
