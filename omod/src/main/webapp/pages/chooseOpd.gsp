@@ -50,7 +50,7 @@ jq(function() {
             var row = '<tr>';
             <% props.each {
                if(it == props.last()){
-                  def pageLink = ui.pageLink("patientdashboardui", "main") %>
+                  def pageLink = ui.pageLink("patientdashboardapp", "main") %>
                   row += '<td> <a href="${pageLink}?patientId=' + item.patient.id + '&opdId=' + jq("#opd-choice").val() + '"><i class="icon-signin small"></i></a> </td>';
                <% } else {%>
                 row += '<td>' + item.${ it } + '</td>';
