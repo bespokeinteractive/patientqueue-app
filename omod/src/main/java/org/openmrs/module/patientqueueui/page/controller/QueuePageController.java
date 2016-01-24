@@ -13,6 +13,7 @@ import org.openmrs.ConceptAnswer;
 import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,17 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Created by USER on 01/12/2015.
  */
-public class ChooseOpdPageController {
+public class QueuePageController {
 
-	public void get(@RequestParam(value = "opdId", required = false) Integer opdId, PageModel model,
+	public void get(
+			@RequestParam("app") AppDescriptor appDescriptor,
+			PageModel model,
 			HttpSession session) {
-
-		String roleName = "";
+		model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
 		User usr = Context.getAuthenticatedUser();
 		Set<Role> rl = usr.getRoles();
 		for (Role r : rl) {
 			if (r.getName().equalsIgnoreCase("Triage User")) {
-				roleName = "triageUser";
 				Concept triageConcept = Context.getConceptService().getConceptByName("TRIAGE");
 				List<ConceptAnswer> list = (triageConcept != null
 						? new ArrayList<ConceptAnswer>(triageConcept.getAnswers()) : null);
@@ -40,7 +41,6 @@ public class ChooseOpdPageController {
 				model.addAttribute("listOPD", list);
 
 			} else if (r.getName().equalsIgnoreCase("Doctor")) {
-				roleName = "doctor";
 				Concept opdWardConcept = Context.getConceptService().getConceptByName("OPD WARD");
 				Concept specialClinicConcept = Context.getConceptService().getConceptByName("SPECIAL CLINIC");
 				List<ConceptAnswer> oList = (opdWardConcept != null
@@ -54,7 +54,6 @@ public class ChooseOpdPageController {
 				model.addAttribute("listOPD", sList);
 
 			} else {
-				roleName = "sd";
 				Concept triageConcept = Context.getConceptService().getConceptByName("TRIAGE");
 				Concept opdWardConcept = Context.getConceptService().getConceptByName("OPD WARD");
 				Concept specialClinicConcept = Context.getConceptService().getConceptByName("SPECIAL CLINIC");
@@ -70,17 +69,8 @@ public class ChooseOpdPageController {
 					Collections.sort(sList, new ConceptAnswerComparator());
 				}
 				model.addAttribute("listOPD", sList);
-
-				if (opdId == null) {
-					opdId = (Integer) session.getAttribute("opdRoomId");
-				} else {
-					session.setAttribute("opdRoomId", opdId);
-				}
-				model.addAttribute("opdId", opdId);
 			}
 		}
-		model.addAttribute("roleName", roleName);
-
 	}
 
 }

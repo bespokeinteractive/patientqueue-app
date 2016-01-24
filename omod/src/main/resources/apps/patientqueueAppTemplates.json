@@ -1,0 +1,18 @@
+[
+    {
+        "id": "patientqueue.template.viewQueue",        // unique across all app templates, typically starts with your module id
+        "description": "Patient queue view",        // plain text or message code
+        "contextModel": [        // extensions may count on apps with this template providing these values (dev documentation, not enforced by the framework)
+            "patientId",
+            "opdId",
+            "queueId"
+        ],
+        "configOptions": [        // apps that inherit from this template may override these or inherit the default values
+            {
+                "name": "onSelectUrl",
+                "description": "What url to go to after choosing a patient. Supports {{patientId}}",
+                "defaultValue": "/patientdashboardapp/main.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}"
+            }
+        ]
+    }
+]

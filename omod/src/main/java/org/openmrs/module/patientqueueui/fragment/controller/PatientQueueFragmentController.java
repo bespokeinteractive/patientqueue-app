@@ -1,10 +1,10 @@
 package org.openmrs.module.patientqueueui.fragment.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
-import org.openmrs.ConceptName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueue;
@@ -23,12 +23,12 @@ public class PatientQueueFragmentController {
 		String conceptAnswerName = queueAnswer.getConcept().getName().toString();
 		if (conceptAnswerName.equals("TRIAGE")) {
 			List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue(query.trim(), opdId, "", 0, 0);
-			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id");
+			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
 		} else if (conceptAnswerName.equals("OPD WARD")) {
 			List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue(query.trim(), opdId, "", 0, 0);
-			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id");
+			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
 		}
-		return null;
+		return SimpleObject.fromCollection(Collections.EMPTY_LIST, ui, "");
 	}
 
 }
