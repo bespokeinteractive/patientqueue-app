@@ -33,7 +33,7 @@
 	</p>
 </form>
 
-<form id="patient-search">
+<form id="patient-search" style="display: none">
 	<input type="text" id="search-query" placeholder="Search by ID or Name" />
 </form>
 
