@@ -12,6 +12,7 @@
 
     function handlePatientRowSelection() {
         this.handle = function (row) {
+            console.log("Row status: " + row.status);
             location.href = '/' + OPENMRS_CONTEXT_PATH + emr.applyContextModel('${ ui.escapeJs(afterSelectedUrl) }', { patientId: row.patient.id, queueId: row.id, opdId: jq('#queue-choice').val()});
         }
     }
@@ -44,7 +45,6 @@
 			<th>Name</th>
 			<th>Age</th>
 			<th>Gender</th>
-			<th>Status</th>
 			<th>Visit Status</th>
 		</tr>
 	</thead>

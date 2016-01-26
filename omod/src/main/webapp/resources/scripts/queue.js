@@ -7,7 +7,7 @@ jq(function(){
         searchResultsData = results;
         var dataRows = [];
         _.each(searchResultsData, function(result){
-            dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.status, result.visitStatus]);
+            dataRows.push([result.patientIdentifier, result.patientName + " <span class='recent-lozenge'>"+result.status+"</span>", result.age, result.sex, result.visitStatus]);
         });
         dTable.fnAddData(dataRows);
         refreshTable();
