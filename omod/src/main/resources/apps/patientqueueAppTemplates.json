@@ -12,7 +12,13 @@
                 "name": "onSelectUrl",
                 "description": "What url to go to after choosing a patient. Supports {{patientId}}, {{opdId}}, {{queueId}}",
                 "defaultValue": "/patientdashboardapp/main.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}"
+            },
+            {
+                "name": "title",
+                "description": "Patient Queue Header",
+                "defaultValue": "OPD Queue"
             }
+
         ]
     }
 ]

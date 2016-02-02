@@ -20,7 +20,7 @@
     var handlePatientRowSelection =  new handlePatientRowSelection();
 </script>
 
-<h2>Patient Queue</h2>
+<h2>${title}</h2>
 
 <form>
 	<p>
