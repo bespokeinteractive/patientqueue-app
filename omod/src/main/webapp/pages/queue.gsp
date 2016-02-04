@@ -1,7 +1,8 @@
 <%
     ui.decorateWith("appui", "standardEmrPage")
     ui.includeCss("uicommons", "datatables/dataTables_jui.css")
-    ui.includeJavascript("uicommons", "datatables/jquery.dataTables.min.js")
+    ui.includeCss("coreapps", "patientsearch/patientSearchWidget.css")
+    ui.includeJavascript("patientqueueui", "jquery.dataTables.min.js")
     ui.includeJavascript("patientqueueui", "queue.js")
 %>
 <script type="text/javascript">
@@ -34,10 +35,11 @@
 	</p>
 </form>
 
-<form id="patient-search" style="display: none">
-	<input type="text" id="search-query" placeholder="Search by ID or Name" />
+<form method="get" id="patient-search-form" onsubmit="return false">
+    <input type="text" id="patient-search" placeholder="${ ui.message("coreapps.findPatient.search.placeholder") }" /><i id="patient-search-clear-button" class="small icon-remove-sign"></i>
 </form>
 
+<div class="results">
 <table id="patient-queue">
 	<thead>
 		<tr>
@@ -50,8 +52,12 @@
 	</thead>
 	<tbody></tbody>
 </table>
+</div>
 
 <style>
+.results {
+    margin-top: 1em;
+}
 #patient-queue tbody tr:hover {
   background-color: #f26522;
   cursor: pointer;
@@ -65,5 +71,13 @@
   background: white;
   cursor: default;
   color: #363463;
+}
+#patient-search-clear-button {
+    position: relative;
+    right: 25px;
+}
+#patient-search-form input {
+    display: inline;
+    margin-top: 5px;
 }
 </style>

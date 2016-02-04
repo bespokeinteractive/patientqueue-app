@@ -1,5 +1,5 @@
 var searchResultsData = [];
-var highlightedKeyboardRowIndex;
+var highlightedKeyboardRowIndex, dTable;
 
 jq(function(){
     var tableObject = jq("#patient-queue");
@@ -7,7 +7,7 @@ jq(function(){
         searchResultsData = results;
         var dataRows = [];
         _.each(searchResultsData, function(result){
-            dataRows.push([result.patientIdentifier, result.patientName + " <span class='recent-lozenge'>"+result.status+"</span>", result.age, result.sex, result.visitStatus]);
+            dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.visitStatus]);
         });
         dTable.fnAddData(dataRows);
         refreshTable();
@@ -20,23 +20,28 @@ jq(function(){
     var refreshTable = function(){
         var rowCount = searchResultsData.length;
         if(rowCount == 0){
-            jq("#queue-data").find('td.dataTables_empty').html("No patient in queue");
+            tableObject.find('td.dataTables_empty').html("No patient in queue");
         }
         dTable.fnPageChange(0);
     }
 
-    jq('#queue-choice').change(function() {
-        jq("#queue-data").find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
+    var getPatientsInQueue = function(opdId, searchPhrase){
+        tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
         jq.getJSON(emr.fragmentActionLink("patientqueueui", "patientQueue", "getPatientsInQueue"),
             {
-              'opdId': jq(this).val()
+              'opdId': opdId,
+              'phrase': searchPhrase
             })
         .success(function(data) {
             updateSearchResults(data);
         })
         .fail(function(xhr, status, err) {
-            jq("#queue-data").find('td.dataTables_empty').html("<span class='patient-search-error'>" + config.messages.searchError + "</span>");
+            tableObject.find('td.dataTables_empty').html("<span class='patient-search-error'>" + config.messages.searchError + "</span>");
         });
+    };
+
+    jq('#queue-choice').change(function() {
+        getPatientsInQueue(jq(this).val());
     });
 
     var isTableEmpty = function(){
@@ -46,8 +51,8 @@ jq(function(){
         return !dTable || dTable.fnGetNodes().length == 0;
     };
 
-    var dTable = tableObject.dataTable({
-        bFilter: false,
+    dTable = tableObject.dataTable({
+        bFilter: true,
         bJQueryUI: true,
         bLengthChange: false,
         iDisplayLength: 15,
@@ -90,5 +95,16 @@ jq(function(){
                 }
             );
         }
+    });
+
+    jq("#patient-search").on("keyup", function(){
+        var searchPhrase = jq(this).val();
+        console.log("Searching for: " + searchPhrase);
+        dTable.api().search(searchPhrase).draw();
+    });
+
+    jq("#patient-search-clear-button").on("click", function(){
+        jq("#patient-search").val('');
+        dTable.api().search('').draw();
     });
 });
