@@ -10,8 +10,8 @@
         "configOptions": [        // apps that inherit from this template may override these or inherit the default values
             {
                 "name": "onSelectUrl",
-                "description": "What url to go to after choosing a patient. Supports {{patientId}}, {{opdId}}, {{queueId}}",
-                "defaultValue": "/patientdashboardapp/main.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}"
+                "description": "What url to go to after choosing a patient. Supports {{patientId}}, {{opdId}}, {{queueId}}, {visitStatus}}",
+                "defaultValue": "/patientdashboardapp/main.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}&visitStatus={{visitStatus}}"
             },
             {
                 "name": "title",
