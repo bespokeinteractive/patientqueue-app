@@ -4,12 +4,18 @@ var highlightedKeyboardRowIndex, dTable;
 jq(function(){
     var tableObject = jq("#patient-queue");
     var updateSearchResults = function(results){
-        searchResultsData = results;
+        searchResultsData = results || [];
         var dataRows = [];
         _.each(searchResultsData, function(result){
             dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.visitStatus, result.status]);
         });
-        dTable.fnAddData(dataRows);
+
+        dTable.api().clear();
+        
+        if(dataRows.length > 0) {
+            dTable.fnAddData(dataRows);
+        }
+
         refreshTable();
     }
 
