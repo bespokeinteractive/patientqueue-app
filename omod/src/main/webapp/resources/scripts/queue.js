@@ -7,7 +7,7 @@ jq(function(){
         searchResultsData = results;
         var dataRows = [];
         _.each(searchResultsData, function(result){
-            dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.visitStatus]);
+            dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.visitStatus, result.status]);
         });
         dTable.fnAddData(dataRows);
         refreshTable();
@@ -32,8 +32,14 @@ jq(function(){
               'opdId': opdId,
               'phrase': searchPhrase
             })
-        .success(function(data) {
-            updateSearchResults(data);
+        .success(function(results) {
+            updateSearchResults(results.data);
+            if(results.user==="triageUser"){
+                jq(".user-processing").text("Nurse Processing");
+            }else{
+                jq(".user-processing").text("Doctor Processing");
+            }
+
         })
         .fail(function(xhr, status, err) {
             tableObject.find('td.dataTables_empty').html("<span class='patient-search-error'>" + config.messages.searchError + "</span>");
