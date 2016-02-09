@@ -9,12 +9,13 @@ jq(function(){
         _.each(searchResultsData, function(result){
             dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.visitStatus, result.status]);
         });
+
+        dTable.api().clear();
+        
         if(dataRows.length > 0) {
             dTable.fnAddData(dataRows);
         }
-        else{
-            dTable.api().clear();
-        }
+
         refreshTable();
     }
 
