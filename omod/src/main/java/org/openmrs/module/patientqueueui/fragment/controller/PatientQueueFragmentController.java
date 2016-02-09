@@ -17,18 +17,23 @@ public class PatientQueueFragmentController {
 	
 	public void controller() {}
 	
-	public List<SimpleObject> getPatientsInQueue(@RequestParam("opdId") Integer opdId, @RequestParam(value = "query", required = false) String query, UiUtils ui) {
+	public SimpleObject getPatientsInQueue(@RequestParam("opdId") Integer opdId, @RequestParam(value = "query", required = false) String query, UiUtils ui) {
 		Concept queueConcept = Context.getConceptService().getConcept(opdId);
 		ConceptAnswer queueAnswer = Context.getService(PatientQueueService.class).getConceptAnswer(queueConcept);
 		String conceptAnswerName = queueAnswer.getConcept().getName().toString();
+
+		SimpleObject patientQueueData = null;
+
 		if (conceptAnswerName.equals("TRIAGE")) {
 			List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue(query.trim(), opdId, "", 0, 0);
-			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
+			List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
+			patientQueueData = SimpleObject.create("data", patientQueueObject, "user", "triageUser");
 		} else if (conceptAnswerName.equals("OPD WARD")) {
 			List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue(query.trim(), opdId, "", 0, 0);
-			return SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
+			List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
+			patientQueueData = SimpleObject.create("data", patientQueueObject, "user", "opdUser");
 		}
-		return SimpleObject.fromCollection(Collections.EMPTY_LIST, ui, "");
+		return patientQueueData;
 	}
 
 }

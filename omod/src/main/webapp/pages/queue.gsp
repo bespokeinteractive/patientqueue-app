@@ -48,6 +48,7 @@
 			<th>Age</th>
 			<th>Gender</th>
 			<th>Visit Status</th>
+            <th class="user-processing"></th>
 		</tr>
 	</thead>
 	<tbody></tbody>
