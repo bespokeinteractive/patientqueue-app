@@ -7,7 +7,8 @@ jq(function(){
         searchResultsData = results || [];
         var dataRows = [];
         _.each(searchResultsData, function(result){
-            dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.visitStatus, result.status]);
+            var patient_name = result.patientName.replace("null","");
+            dataRows.push([result.patientIdentifier, patient_name, result.age, result.sex, result.visitStatus, result.status]);
         });
 
         dTable.api().clear();
