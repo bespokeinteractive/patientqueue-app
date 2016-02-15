@@ -1,4 +1,5 @@
 var searchResultsData = [];
+var timeout;
 var highlightedKeyboardRowIndex, dTable;
 
 jq(function(){
@@ -55,7 +56,15 @@ jq(function(){
 
     jq('#queue-choice').change(function() {
         getPatientsInQueue(jq(this).val());
+        if (timeout) {
+            clearTimeout(timeout);    		
+        }
+        timeout = setInterval(startRefresh, 30000);
     });
+
+    function startRefresh(){
+        getPatientsInQueue(jq('#queue-choice').val());
+    }
 
     var isTableEmpty = function(){
         if(searchResultsData.length > 0){
