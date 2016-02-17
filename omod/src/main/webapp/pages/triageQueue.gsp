@@ -135,61 +135,43 @@
 			</div>
 		</div>
 	</div>
-</body>
 	
+	<div class="results">
+		<table id="patient-queue" class="dataTable">
+			<thead>
+			<tr role="row">
+				<th class="ui-state-default" style="width: 160px;">
+					<div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div>
+				</th>
+
+				<th class="ui-state-default">
+					<div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div>
+				</th>
+
+				<th class="ui-state-default" style="width: 80px;">
+					<div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
+				</th>
+
+				<th class="ui-state-default" style="width: 65px;">
+					<div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
+				</th>
+
+				<th class="ui-state-default" style="width:95px;">
+					<div class="DataTables_sort_wrapper">Visit Status<span class="DataTables_sort_icon"></span></div>
+				</th>
+
+				<th class="user-processing ui-state-default" style="width: 150px;">
+					<div class="DataTables_sort_wrapper">Processing<span class="DataTables_sort_icon"></span></div>
+				</th>
+			</tr>
+			</thead>
+
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</body>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="results">
-    <table id="patient-queue" class="dataTable">
-        <thead>
-        <tr role="row">
-            <th class="ui-state-default" style="width: 160px;">
-                <div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div>
-            </th>
-
-            <th class="ui-state-default">
-                <div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div>
-            </th>
-
-            <th class="ui-state-default" style="width: 80px;">
-                <div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
-            </th>
-
-            <th class="ui-state-default" style="width: 65px;">
-                <div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
-            </th>
-
-            <th class="ui-state-default" style="width:95px;">
-                <div class="DataTables_sort_wrapper">Visit Status<span class="DataTables_sort_icon"></span></div>
-            </th>
-
-            <th class="user-processing ui-state-default" style="width: 150px;">
-                <div class="DataTables_sort_wrapper">Processing<span class="DataTables_sort_icon"></span></div>
-            </th>
-        </tr>
-        </thead>
-
-        <tbody>
-        </tbody>
-    </table>
-</div>
 
 
