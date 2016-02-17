@@ -129,4 +129,15 @@ jq(function(){
         jq("#patient-search").val('');
         dTable.api().search('').draw();
     });
+	
+	jq(document).ready(function () {
+		jq('#queue-choice').bind('change keyup', function() {
+			jq.session.set("selected-option", jq('#queue-choice').val());
+		});
+		
+		if (jq.session.get("selected-option")!= ''){
+			jq("#queue-choice").val(jq.session.get("selected-option"));
+			startRefresh();
+		}
+	});
 });

@@ -1,9 +1,6 @@
 package org.openmrs.module.patientqueueui.page.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,6 +27,8 @@ public class TriageQueuePageController {
         
         User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", "Triage Queue");
+        model.addAttribute("date", new Date());
+
         Set<Role> rl = usr.getRoles();
         for (Role r : rl) {
             if (r.getName().equalsIgnoreCase("Triage User")) {

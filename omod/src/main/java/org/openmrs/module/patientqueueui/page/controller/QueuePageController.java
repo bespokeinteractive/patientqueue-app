@@ -9,7 +9,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.module.appui.UiSessionContext;
-import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
