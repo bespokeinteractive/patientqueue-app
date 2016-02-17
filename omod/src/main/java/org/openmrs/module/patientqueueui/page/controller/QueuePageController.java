@@ -1,12 +1,5 @@
 package org.openmrs.module.patientqueueui.page.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
@@ -15,22 +8,31 @@ import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.ui.framework.UiUtils;
+import org.openmrs.module.appui.UiSessionContext;
+import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by USER on 01/12/2015.
  */
 public class QueuePageController {
-
 	public String get(
+			UiSessionContext sessionContext,
 			@RequestParam("app") AppDescriptor appDescriptor,
 			PageModel model,
 			HttpSession session, UiUtils uiUtils) {
 		model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
 		User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", appDescriptor.getConfig().get("title").getTextValue());
+		sessionContext.requireAuthentication();
 		Set<Role> rl = usr.getRoles();
 		for (Role r : rl) {
 			if (r.getName().equalsIgnoreCase("Triage User")) {

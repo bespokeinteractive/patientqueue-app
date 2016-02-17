@@ -1,4 +1,5 @@
 var searchResultsData = [];
+var timeout;
 var highlightedKeyboardRowIndex, dTable;
 
 jq(function(){
@@ -7,7 +8,8 @@ jq(function(){
         searchResultsData = results || [];
         var dataRows = [];
         _.each(searchResultsData, function(result){
-            dataRows.push([result.patientIdentifier, result.patientName, result.age, result.sex, result.visitStatus, result.status]);
+            var patient_name = result.patientName.replace("null","");
+            dataRows.push([result.patientIdentifier, patient_name, result.age, result.sex, result.visitStatus, result.status]);
         });
 
         dTable.api().clear();
@@ -54,7 +56,15 @@ jq(function(){
 
     jq('#queue-choice').change(function() {
         getPatientsInQueue(jq(this).val());
+        if (timeout) {
+            clearTimeout(timeout);    		
+        }
+        timeout = setInterval(startRefresh, 30000);
     });
+
+    function startRefresh(){
+        getPatientsInQueue(jq('#queue-choice').val());
+    }
 
     var isTableEmpty = function(){
         if(searchResultsData.length > 0){
