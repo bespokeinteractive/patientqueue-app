@@ -14,19 +14,20 @@ import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
-import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
 
 /**
  * Created by USER on 01/12/2015.
  */
 public class QueuePageController {
 
-	public void get(
+	public String get(
 			@RequestParam("app") AppDescriptor appDescriptor,
 			PageModel model,
-			HttpSession session) {
+			HttpSession session, UiUtils uiUtils) {
 		model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
 		User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", appDescriptor.getConfig().get("title").getTextValue());
@@ -72,6 +73,13 @@ public class QueuePageController {
 				model.addAttribute("listOPD", sList);
 			}
 		}
+
+        if(appDescriptor.getConfig().get("title").getTextValue().equalsIgnoreCase("Triage Queue")){
+            return "redirect:"+uiUtils.pageLink("patientqueueui","triageQueue");
+
+        }else{
+            return "redirect:"+uiUtils.pageLink("patientqueueui","opdQueue");
+        }
 	}
 
 }

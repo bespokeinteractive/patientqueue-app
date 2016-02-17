@@ -44,7 +44,13 @@
 		</dependency>
 				
 		<!-- End OpenMRS modules -->
-		
+		<dependency>
+
+			<groupId>org.openmrs.module</groupId>
+
+			<artifactId>hospitalcore-api</artifactId>
+
+		</dependency>
 
 		<!-- Begin OpenMRS core -->
 		

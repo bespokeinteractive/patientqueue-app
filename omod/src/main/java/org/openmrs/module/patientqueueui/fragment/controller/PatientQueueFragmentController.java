@@ -9,6 +9,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueue;
 import org.openmrs.module.hospitalcore.model.TriagePatientQueue;
+import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.springframework.web.bind.annotation.RequestParam;
