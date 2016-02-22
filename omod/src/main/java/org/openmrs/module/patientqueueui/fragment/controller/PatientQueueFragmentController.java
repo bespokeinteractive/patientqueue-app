@@ -31,7 +31,7 @@ public class PatientQueueFragmentController {
 			patientQueueData = SimpleObject.create("data", patientQueueObject, "user", "triageUser");
 		} else if (conceptAnswerName.equals("OPD WARD")) {
 			List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue(query.trim(), opdId, "", 0, 0);
-			List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
+			List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id", "referralConcept.conceptId");
 			patientQueueData = SimpleObject.create("data", patientQueueObject, "user", "opdUser");
 		}
 		return patientQueueData;
