@@ -8,7 +8,12 @@ jq(function(){
         searchResultsData = results || [];
         var dataRows = [];
         _.each(searchResultsData, function(result){
-            var patient_name = result.patientName.replace("null","");
+			var patient_name = result.patientName.replace("null","");
+			
+			if (result.referralConcept && result.referralConcept.conceptId == 2548){
+				patient_name += " <span class='recent-lozenge'>From Lab</span>";
+			}
+            
             dataRows.push([result.patientIdentifier, patient_name, result.age, result.sex, result.visitStatus, result.status]);
         });
 
@@ -116,7 +121,14 @@ jq(function(){
                     selectRow(highlightedMouseRowIndex);
                 }
             );
-        }
+        },
+		
+		fnRowCallback : function (nRow, aData, index){
+			if (searchResultsData[index].referralConcept && searchResultsData[index].referralConcept.conceptId == 2548){
+				nRow.className += " from-lab";
+				return nRow;
+			}
+		}
     });
 
     jq("#patient-search").on("keyup", function(){

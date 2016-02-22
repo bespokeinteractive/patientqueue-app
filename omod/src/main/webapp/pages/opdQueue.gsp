@@ -115,6 +115,19 @@
 	form .advanced i {
 		font-size: 22px;
 	}
+	.from-lab{
+		background: #fff799 none repeat scroll 0 0!important;
+		color: #000 !important;
+	}
+	.recent-lozenge {
+		border: 1px solid #f00;
+		border-radius: 4px;
+		color: #f00;
+		display: inline-block;
+		font-size: 0.7em;
+		padding: 1px 2px;
+		vertical-align: text-bottom;
+	}
 </style>
 
 <header>
