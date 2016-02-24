@@ -28,10 +28,10 @@ public class QueuePageController {
 			@RequestParam("app") AppDescriptor appDescriptor,
 			PageModel model,
 			HttpSession session, UiUtils uiUtils) {
+		sessionContext.requireAuthentication();
 		model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
 		User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", appDescriptor.getConfig().get("title").getTextValue());
-		sessionContext.requireAuthentication();
 		Set<Role> rl = usr.getRoles();
 		for (Role r : rl) {
 			if (r.getName().equalsIgnoreCase("Triage User")) {

@@ -15,20 +15,21 @@ import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
+import org.openmrs.module.appui.UiSessionContext;
 
 /**
  * Created by Dennys Henry on 2/17/2016.
  */
 public class TriageQueuePageController {
     public void get(
+            UiSessionContext sessionContext,
             PageModel model,
             HttpSession session) {
+        sessionContext.requireAuthentication();
         model.addAttribute("afterSelectedUrl", "/patientdashboardapp/triage.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}&visitStatus={{visitStatus}}");
-        
         User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", "Triage Queue");
         model.addAttribute("date", new Date());
-
         Set<Role> rl = usr.getRoles();
         for (Role r : rl) {
             if (r.getName().equalsIgnoreCase("Triage User")) {
