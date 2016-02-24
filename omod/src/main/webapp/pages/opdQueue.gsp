@@ -33,7 +33,7 @@
 				jq('#for-patient-search').text('Find Patient');
 			}
 			else{
-				jq('#for-patient-search').text('Filter Patient');
+				jq('#for-patient-search').text('Filter Queue');
 			}
 		});
 	});
@@ -56,25 +56,19 @@
 	
 	function HideDashboard() {
         jq('#dashboard').hide(500);
-		jq('#dashboard').clearForm();
+		jq('#dashboard').find('input:text').val('');
+		jq('#dashboard').find('select option:first-child').attr("selected", "selected");
     }
     function ShowDashboard() {
 		if (jq('#search-in-db').is(':checked')) {
 			jq('#dashboard').toggle(500);
-			jq('#dashboard').clearForm();
+			jq('#dashboard').find('input:text').val('');
+			jq('#dashboard').find('select option:first-child').attr("selected", "selected");
 		}
 		else {
 			jq().toastmessage('showErrorToast', "Advanced Search can only be used when searching a patient in the System.",true);
-			jq().toastmessage('showToast', {
-				text     : 'Advanced Search can only be used when searching a patient in the System.',
-				sticky   : true,
-				position : 'top-right',
-				type     : 'error'
-			});
-			
 			HideDashboard();
 		}
-        
     }
 </script>
 
