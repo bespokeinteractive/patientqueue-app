@@ -240,7 +240,7 @@
 		color: #007fff;
 	}
 	.toast-item-image {
-		top: 30%;
+		top: 25px;
 	}
 </style>
 
