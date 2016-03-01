@@ -30,47 +30,18 @@ public class OpdQueuePageController {
         User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", "OPD Queue");
         model.addAttribute("date", new Date());
-        Set<Role> rl = usr.getRoles();
-        for (Role r : rl) {
-            if (r.getName().equalsIgnoreCase("Triage User")) {
-                Concept triageConcept = Context.getConceptService().getConceptByName("TRIAGE");
-                List<ConceptAnswer> list = (triageConcept != null
-                        ? new ArrayList<ConceptAnswer>(triageConcept.getAnswers()) : null);
-                if (CollectionUtils.isNotEmpty(list)) {
-                    Collections.sort(list, new ConceptAnswerComparator());
-                }
-                model.addAttribute("listOPD", list);
-
-            } else if (r.getName().equalsIgnoreCase("Doctor")) {
-                Concept opdWardConcept = Context.getConceptService().getConceptByName("OPD WARD");
-                Concept specialClinicConcept = Context.getConceptService().getConceptByName("SPECIAL CLINIC");
-                List<ConceptAnswer> oList = (opdWardConcept != null
-                        ? new ArrayList<ConceptAnswer>(opdWardConcept.getAnswers()) : null);
-                List<ConceptAnswer> sList = (specialClinicConcept != null
-                        ? new ArrayList<ConceptAnswer>(specialClinicConcept.getAnswers()) : null);
-                sList.addAll(oList);
-                if (CollectionUtils.isNotEmpty(sList)) {
-                    Collections.sort(sList, new ConceptAnswerComparator());
-                }
-                model.addAttribute("listOPD", sList);
-
-            } else {
-                Concept triageConcept = Context.getConceptService().getConceptByName("TRIAGE");
-                Concept opdWardConcept = Context.getConceptService().getConceptByName("OPD WARD");
-                Concept specialClinicConcept = Context.getConceptService().getConceptByName("SPECIAL CLINIC");
-                List<ConceptAnswer> tList = (triageConcept != null
-                        ? new ArrayList<ConceptAnswer>(triageConcept.getAnswers()) : null);
-                List<ConceptAnswer> oList = (opdWardConcept != null
-                        ? new ArrayList<ConceptAnswer>(opdWardConcept.getAnswers()) : null);
-                List<ConceptAnswer> sList = (specialClinicConcept != null
-                        ? new ArrayList<ConceptAnswer>(specialClinicConcept.getAnswers()) : null);
-                sList.addAll(tList);
-                sList.addAll(oList);
-                if (CollectionUtils.isNotEmpty(sList)) {
-                    Collections.sort(sList, new ConceptAnswerComparator());
-                }
-                model.addAttribute("listOPD", sList);
-            }
+        Concept opdWardConcept = Context.getConceptService().getConceptByName("OPD WARD");
+        Concept specialClinicConcept = Context.getConceptService().getConceptByName("SPECIAL CLINIC");
+        List<ConceptAnswer> patientList = new ArrayList<ConceptAnswer>();
+        List<ConceptAnswer> opdList = (opdWardConcept != null
+                ? new ArrayList<ConceptAnswer>(opdWardConcept.getAnswers()) : null);
+        List<ConceptAnswer> specialClinicList = (specialClinicConcept != null
+                ? new ArrayList<ConceptAnswer>(specialClinicConcept.getAnswers()) : null);
+        patientList.addAll(specialClinicList);
+        patientList.addAll(opdList);
+        if (CollectionUtils.isNotEmpty( patientList)) {
+            Collections.sort( patientList, new ConceptAnswerComparator());
         }
+        model.addAttribute("listOPD",  patientList);
     }
 }
