@@ -1,0 +1,21 @@
+[
+  {
+    "id": "patientdashboardapp.opdqueue",        // unique id for this app, unique across all apps, typically starts with your module id
+    "description": "View patient in OPD queue",        // plain text or a message code (not displayed to end-users)
+    "extensions": [
+      {
+        "id": "patientdashboardapp.opdqueue.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "OPD",        // text or message code (this is shown to the user)
+        "url": "patientqueueui/opdQueue.page?app=patientdashboardapp.opdqueue",        // clicking on the app icon goes to this link,
+        "order": 3,
+        "icon": "icon-tasks",        // see the uicommons style guide icons
+        "requiredPrivilege": "App: referenceapplication.quickSummary"        // require this privilege to show the link
+      }
+    ],
+    "config": {
+      "onSelectUrl": "/patientdashboardapp/main.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}&visitStatus={{visitStatus}}"
+    }
+  }
+]
