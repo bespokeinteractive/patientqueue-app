@@ -1,0 +1,21 @@
+[
+  {
+    "id": "patientdashboardapp.triage",        // unique id for this app, unique across all apps, typically starts with your module id
+    "description": "View patient in Triage queue",        // plain text or a message code (not displayed to end-users)
+    "extensions": [
+      {
+        "id": "patientdashboardapp.opdqueue.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "Triage",        // text or message code (this is shown to the user)
+        "url": "patientqueueui/triageQueue.page?app=patientdashboardapp.triage",        // clicking on the app icon goes to this link,
+        "order": 2,
+        "icon": "icon-list-ol",        // see the uicommons style guide icons
+        "requiredPrivilege": "App: referenceapplication.quickSummary"        // require this privilege to show the link
+      }
+    ],
+    "config": {
+      "onSelectUrl": "/patientdashboardapp/triage.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}&visitStatus={{visitStatus}}"
+    }
+  }
+]

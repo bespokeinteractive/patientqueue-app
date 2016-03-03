@@ -22,11 +22,12 @@ import org.openmrs.module.appui.UiSessionContext;
  */
 public class OpdQueuePageController {
     public void get(
+            @RequestParam("app") AppDescriptor appDescriptor,
             UiSessionContext sessionContext,
             PageModel model,
             HttpSession session) {
         sessionContext.requireAuthentication();
-        model.addAttribute("afterSelectedUrl", "/patientdashboardapp/main.page?patientId={{patientId}}&opdId={{opdId}}&queueId={{queueId}}&visitStatus={{visitStatus}}");
+        model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
         User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", "OPD Queue");
         model.addAttribute("date", new Date());
