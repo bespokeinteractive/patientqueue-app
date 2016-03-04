@@ -43,7 +43,7 @@
 	<!-- / Required Modules -->
 	
 	<!-- Module Activator -->
-	<activator>${project.parent.groupId}.${project.parent.artifactId}.PatientQueueUiActivator</activator>
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.PatientQueueAppActivator</activator>
 	
 	
 	<!-- Maps hibernate file's, if present -->

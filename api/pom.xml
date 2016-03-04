@@ -4,13 +4,13 @@
 
 	<parent>
 		<groupId>org.openmrs.module</groupId>
-		<artifactId>patientqueueui</artifactId>
+		<artifactId>patientqueueapp</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>patientqueueui-api</artifactId>
+	<artifactId>patientqueueapp-api</artifactId>
 	<packaging>jar</packaging>
-	<name>Patient Queue Ui Module API</name>
+	<name>Patient Queue App Module API</name>
 	<description>API project for PatientQueueUi</description>
 
 	<dependencies>

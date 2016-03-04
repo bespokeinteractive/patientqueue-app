@@ -6,9 +6,9 @@
 	ui.includeCss("registration", "onepcssgrid.css")
 	ui.includeCss("registration", "main.css")
 	
-    ui.includeJavascript("patientqueueui", "jquery.dataTables.min.js")
-    ui.includeJavascript("patientqueueui", "queue.js")
-    ui.includeJavascript("patientqueueui", "jquery.session.js")
+    ui.includeJavascript("patientqueueapp", "jquery.dataTables.min.js")
+    ui.includeJavascript("patientqueueapp", "queue.js")
+    ui.includeJavascript("patientqueueapp", "jquery.session.js")
 %>
 <script type="text/javascript">
     function handlePatientRowSelection() {

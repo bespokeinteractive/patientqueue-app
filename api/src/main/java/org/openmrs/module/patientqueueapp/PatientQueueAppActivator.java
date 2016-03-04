@@ -11,7 +11,7 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.patientqueueui;
+package org.openmrs.module.patientqueueapp;
 
 
 import org.apache.commons.logging.Log; 
@@ -21,7 +21,7 @@ import org.openmrs.module.ModuleActivator;
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
  */
-public class PatientQueueUiActivator implements ModuleActivator {
+public class PatientQueueAppActivator implements ModuleActivator {
 	
 	protected Log log = LogFactory.getLog(getClass());
 		

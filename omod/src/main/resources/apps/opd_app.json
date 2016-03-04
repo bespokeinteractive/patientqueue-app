@@ -8,7 +8,7 @@
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",
         "label": "OPD",        // text or message code (this is shown to the user)
-        "url": "patientqueueui/opdQueue.page?app=patientdashboardapp.opdqueue",        // clicking on the app icon goes to this link,
+        "url": "patientqueueapp/opdQueue.page?app=patientdashboardapp.opdqueue",        // clicking on the app icon goes to this link,
         "order": 3,
         "icon": "icon-tasks",        // see the uicommons style guide icons
         "requiredPrivilege": "App: referenceapplication.quickSummary"        // require this privilege to show the link

@@ -8,7 +8,7 @@
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",
         "label": "Triage",        // text or message code (this is shown to the user)
-        "url": "patientqueueui/triageQueue.page?app=patientdashboardapp.triage",        // clicking on the app icon goes to this link,
+        "url": "patientqueueapp/triageQueue.page?app=patientdashboardapp.triage",        // clicking on the app icon goes to this link,
         "order": 2,
         "icon": "icon-list-ol",        // see the uicommons style guide icons
         "requiredPrivilege": "App: referenceapplication.quickSummary"        // require this privilege to show the link

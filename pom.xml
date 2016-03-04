@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.openmrs.module</groupId>
-	<artifactId>patientqueueui</artifactId>
+	<artifactId>patientqueueapp</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Patient Queue Ui Module</name>
+	<name>Patient Queue App Module</name>
 	<description>2.0 ui for patient queue module</description>
 	<url>https://wiki.openmrs.org/display/docs/Patient+Queue+Ui+Module+Module</url>
 	
@@ -22,9 +22,9 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://svn.openmrs.org/openmrs-modules/patient-queueui/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.openmrs.org/openmrs-modules/patient-queueui/trunk/</developerConnection>
-		<url>https://svn.openmrs.org/openmrs-modules/patient-queueui/trunk/</url>
+		<connection>scm:svn:https://svn.openmrs.org/openmrs-modules/patient-queueapp/trunk/</connection>
+		<developerConnection>scm:svn:https://svn.openmrs.org/openmrs-modules/patient-queueapp/trunk/</developerConnection>
+		<url>https://svn.openmrs.org/openmrs-modules/patient-queueapp/trunk/</url>
 	</scm>
 
 	<modules>

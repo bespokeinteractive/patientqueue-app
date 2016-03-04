@@ -2,8 +2,8 @@
     ui.decorateWith("appui", "standardEmrPage")
     ui.includeCss("uicommons", "datatables/dataTables_jui.css")
     ui.includeCss("coreapps", "patientsearch/patientSearchWidget.css")
-    ui.includeJavascript("patientqueueui", "jquery.dataTables.min.js")
-    ui.includeJavascript("patientqueueui", "queue.js")
+    ui.includeJavascript("patientqueueapp", "jquery.dataTables.min.js")
+    ui.includeJavascript("patientqueueapp", "queue.js")
 %>
 <script type="text/javascript">
     var breadcrumbs = [
