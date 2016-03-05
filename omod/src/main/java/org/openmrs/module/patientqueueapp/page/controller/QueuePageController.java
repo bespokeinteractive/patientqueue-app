@@ -1,4 +1,4 @@
-package org.openmrs.module.patientqueueui.page.controller;
+package org.openmrs.module.patientqueueapp.page.controller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.openmrs.Concept;
@@ -76,10 +76,10 @@ public class QueuePageController {
 		}
 
         if(appDescriptor.getConfig().get("title").getTextValue().equalsIgnoreCase("Triage Queue")){
-            return "redirect:"+uiUtils.pageLink("patientqueueui","triageQueue");
+            return "redirect:"+uiUtils.pageLink("patientqueueapp","triageQueue");
 
         }else{
-            return "redirect:"+uiUtils.pageLink("patientqueueui","opdQueue");
+            return "redirect:"+uiUtils.pageLink("patientqueueapp","opdQueue");
         }
 	}
 

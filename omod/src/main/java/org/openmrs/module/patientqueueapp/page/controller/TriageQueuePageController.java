@@ -1,4 +1,4 @@
-package org.openmrs.module.patientqueueui.page.controller;
+package org.openmrs.module.patientqueueapp.page.controller;
 
 import java.util.*;
 
@@ -7,15 +7,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.collections.CollectionUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
-import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
-import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
 import org.openmrs.module.appui.UiSessionContext;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Dennys Henry on 2/17/2016.

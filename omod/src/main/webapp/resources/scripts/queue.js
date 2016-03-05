@@ -40,7 +40,7 @@ jq(function(){
 
     var getPatientsInQueue = function(opdId, searchPhrase){
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
-        jq.getJSON(emr.fragmentActionLink("patientqueueui", "patientQueue", "getPatientsInQueue"),
+        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInQueue"),
             {
               'opdId': opdId,
               'phrase': searchPhrase

@@ -2,9 +2,9 @@
     ui.decorateWith("appui", "standardEmrPage", [title: "Triage Queue"])
     ui.includeCss("uicommons", "datatables/dataTables_jui.css")
     ui.includeCss("coreapps", "patientsearch/patientSearchWidget.css")
-    ui.includeJavascript("patientqueueui", "jquery.dataTables.min.js")
-    ui.includeJavascript("patientqueueui", "queue.js")
-    ui.includeJavascript("patientqueueui", "jquery.session.js")
+    ui.includeJavascript("patientqueueapp", "jquery.dataTables.min.js")
+    ui.includeJavascript("patientqueueapp", "queue.js")
+    ui.includeJavascript("patientqueueapp", "jquery.session.js")
 %>
 <script type="text/javascript">
     function handlePatientRowSelection() {
