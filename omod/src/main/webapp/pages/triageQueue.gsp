@@ -15,6 +15,20 @@
     }
 
     var handlePatientRowSelection =  new handlePatientRowSelection();
+	
+	jq(document).ready(function () {
+		jq('#queue-choice').bind('change keyup', function() {
+			jq.session.set("selected-option-triage", jq('#queue-choice').val());
+		});
+		
+		if (jq.session.get("selected-option-triage")!= ''){
+			jq("#queue-choice").val(jq.session.get("selected-option-triage"));
+			
+			if (jq("#queue-choice").val() != 0){
+				startRefresh();
+			}
+		}
+	});
 </script>
 
 <style>

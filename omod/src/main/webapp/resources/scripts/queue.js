@@ -55,19 +55,17 @@ jq(function(){
 
         })
         .fail(function(xhr, status, err) {
-            tableObject.find('td.dataTables_empty').html("<span class='patient-search-error'>" + config.messages.searchError + "</span>");
+			updateSearchResults([]);
         });
     };
 
     jq('#queue-choice').change(function() {
-		if (jq(this).val() > 0){
-			getPatientsInQueue(jq(this).val());
-			if (timeout) {
-				clearTimeout(timeout);    		
-			}
-			timeout = setInterval(startRefresh, 30000);
+		console.log("***************");
+		getPatientsInQueue(jq(this).val());
+		if (timeout) {
+			clearTimeout(timeout);    		
 		}
-       
+		timeout = setInterval(startRefresh, 30000);
     });
 
     function startRefresh(){
@@ -144,18 +142,4 @@ jq(function(){
         jq("#patient-search").val('');
         dTable.api().search('').draw();
     });
-	
-	jq(document).ready(function () {
-		jq('#queue-choice').bind('change keyup', function() {
-			jq.session.set("selected-option", jq('#queue-choice').val());
-		});
-		
-		if (jq.session.get("selected-option")!= ''){
-			jq("#queue-choice").val(jq.session.get("selected-option"));
-			
-			if (jq("#queue-choice").val() != 0){
-				startRefresh();
-			}
-		}
-	});
 });

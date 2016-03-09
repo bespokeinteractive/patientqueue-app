@@ -18,6 +18,8 @@
         }
     }
 	
+	var handlePatientRowSelection =  new handlePatientRowSelection();
+	
 	jq(document).ready(function () {
 		jq('#search-in-db').change(function() {
 			if(this.checked) {
@@ -36,6 +38,18 @@
 				jq('#for-patient-search').text('Filter Queue');
 			}
 		});
+		
+		jq('#queue-choice').bind('change keyup', function() {
+			jq.session.set("selected-option-opd", jq('#queue-choice').val());
+		});
+		
+		if (jq.session.get("selected-option-opd")!= ''){
+			jq("#queue-choice").val(jq.session.get("selected-option-opd"));
+			
+			if (jq("#queue-choice").val() != 0){
+				startRefresh();
+			}
+		}
 	});
 	
 	jQuery.fn.clearForm = function() {
@@ -51,8 +65,6 @@
 			  this.selectedIndex = -1;
 		});
 	};
-
-    var handlePatientRowSelection =  new handlePatientRowSelection();
 	
 	function HideDashboard() {
         jq('#dashboard').hide(500);
