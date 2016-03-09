@@ -1,5 +1,6 @@
 package org.openmrs.module.patientqueueapp.page.controller;
 
+import java.lang.ref.Reference;
 import java.util.*;
 
 import javax.servlet.http.HttpSession;
@@ -10,10 +11,14 @@ import org.openmrs.ConceptAnswer;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
 import org.openmrs.module.appui.UiSessionContext;
+import org.openmrs.ui.framework.page.PageRequest;
+import org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * Created by Dennys Henry on 2/17/2016.
@@ -23,8 +28,11 @@ public class OpdQueuePageController {
             @RequestParam("app") AppDescriptor appDescriptor,
             UiSessionContext sessionContext,
             PageModel model,
-            HttpSession session) {
-        sessionContext.requireAuthentication();
+            UiUtils ui,
+            HttpSession session,
+            PageRequest pageRequest
+            ) {
+        pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
         model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
         User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", "OPD Queue");
