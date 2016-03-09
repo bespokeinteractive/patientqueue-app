@@ -242,6 +242,9 @@
 	.toast-item-image {
 		top: 25px;
 	}
+	form select, .form select {
+		min-width: 100% !important;
+	}
 </style>
 
 <header>

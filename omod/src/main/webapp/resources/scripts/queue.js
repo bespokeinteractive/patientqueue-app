@@ -60,11 +60,14 @@ jq(function(){
     };
 
     jq('#queue-choice').change(function() {
-        getPatientsInQueue(jq(this).val());
-        if (timeout) {
-            clearTimeout(timeout);    		
-        }
-        timeout = setInterval(startRefresh, 30000);
+		if (jq(this).val() > 0){
+			getPatientsInQueue(jq(this).val());
+			if (timeout) {
+				clearTimeout(timeout);    		
+			}
+			timeout = setInterval(startRefresh, 30000);
+		}
+       
     });
 
     function startRefresh(){
@@ -149,7 +152,10 @@ jq(function(){
 		
 		if (jq.session.get("selected-option")!= ''){
 			jq("#queue-choice").val(jq.session.get("selected-option"));
-			startRefresh();
+			
+			if (jq("#queue-choice").val() != 0){
+				startRefresh();
+			}
 		}
 	});
 });

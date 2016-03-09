@@ -75,6 +75,9 @@
 	.name{
 		color: #f26522;
 	}
+	form select, .form select {
+		min-width: 97%!important;
+	}
 </style>
 
 <header>
