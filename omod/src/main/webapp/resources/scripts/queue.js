@@ -1,84 +1,85 @@
+var tableObject;
 var searchResultsData = [];
 var timeout;
 var highlightedKeyboardRowIndex, dTable;
 
+function startRefresh(){
+	getPatientsInQueue(jq('#queue-choice').val());
+}
+
+var updateSearchResults = function(results){
+	searchResultsData = results || [];
+	var dataRows = [];
+	_.each(searchResultsData, function(result){
+		var patient_name = result.patientName.replace("null","");
+		
+		if (result.referralConcept && result.referralConcept.conceptId == 2548){
+			patient_name += " <span class='recent-lozenge'>From Lab</span>";
+		}
+		
+		dataRows.push([result.patientIdentifier, patient_name, result.age, result.sex, result.visitStatus, result.status]);
+	});
+
+	dTable.api().clear();
+	
+	if(dataRows.length > 0) {
+		dTable.fnAddData(dataRows);
+	}
+
+	refreshTable();
+}
+
+var selectRow = function(selectedRowIndex) {
+	handlePatientRowSelection.handle(searchResultsData[selectedRowIndex]);
+}
+
+var refreshTable = function(){
+	var rowCount = searchResultsData.length;
+	if(rowCount == 0){
+		tableObject.find('td.dataTables_empty').html("No patient in queue");
+	}
+	dTable.fnPageChange(0);
+}
+
+var getPatientsInQueue = function(opdId, searchPhrase){
+	tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
+	jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInQueue"),
+		{
+		  'opdId': opdId,
+		  'phrase': searchPhrase
+		})
+	.success(function(results) {
+		updateSearchResults(results.data);
+		if(results.user==="triageUser"){
+			jq(".user-processing").text("Nurse Processing");
+		}else{
+			jq(".user-processing").text("Doctor Processing");
+		}
+
+	})
+	.fail(function(xhr, status, err) {
+		updateSearchResults([]);
+	});
+};
+
+var isTableEmpty = function(){
+	if(searchResultsData.length > 0){
+		return false
+	}
+	return !dTable || dTable.fnGetNodes().length == 0;
+};
+	
 jq(function(){
-    var tableObject = jq("#patient-queue");
-    var updateSearchResults = function(results){
-        searchResultsData = results || [];
-        var dataRows = [];
-        _.each(searchResultsData, function(result){
-			var patient_name = result.patientName.replace("null","");
-			
-			if (result.referralConcept && result.referralConcept.conceptId == 2548){
-				patient_name += " <span class='recent-lozenge'>From Lab</span>";
-			}
-            
-            dataRows.push([result.patientIdentifier, patient_name, result.age, result.sex, result.visitStatus, result.status]);
-        });
-
-        dTable.api().clear();
-        
-        if(dataRows.length > 0) {
-            dTable.fnAddData(dataRows);
-        }
-
-        refreshTable();
-    }
-
-    var selectRow = function(selectedRowIndex) {
-        handlePatientRowSelection.handle(searchResultsData[selectedRowIndex]);
-    }
-
-    var refreshTable = function(){
-        var rowCount = searchResultsData.length;
-        if(rowCount == 0){
-            tableObject.find('td.dataTables_empty').html("No patient in queue");
-        }
-        dTable.fnPageChange(0);
-    }
-
-    var getPatientsInQueue = function(opdId, searchPhrase){
-        tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
-        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInQueue"),
-            {
-              'opdId': opdId,
-              'phrase': searchPhrase
-            })
-        .success(function(results) {
-            updateSearchResults(results.data);
-            if(results.user==="triageUser"){
-                jq(".user-processing").text("Nurse Processing");
-            }else{
-                jq(".user-processing").text("Doctor Processing");
-            }
-
-        })
-        .fail(function(xhr, status, err) {
-			updateSearchResults([]);
-        });
-    };
+    tableObject = jq("#patient-queue");
 
     jq('#queue-choice').change(function() {
-		console.log("***************");
 		getPatientsInQueue(jq(this).val());
 		if (timeout) {
 			clearTimeout(timeout);    		
 		}
 		timeout = setInterval(startRefresh, 30000);
     });
-
-    function startRefresh(){
-        getPatientsInQueue(jq('#queue-choice').val());
-    }
-
-    var isTableEmpty = function(){
-        if(searchResultsData.length > 0){
-            return false
-        }
-        return !dTable || dTable.fnGetNodes().length == 0;
-    };
-
+	
     dTable = tableObject.dataTable({
         bFilter: true,
         bJQueryUI: true,
