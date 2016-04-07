@@ -8,6 +8,7 @@
 	
     ui.includeJavascript("patientqueueapp", "jquery.dataTables.min.js")
     ui.includeJavascript("patientqueueapp", "queue.js")
+    ui.includeJavascript("patientqueueapp", "searchInSystem.js")
     ui.includeJavascript("patientqueueapp", "jquery.session.js")
 %>
 <script type="text/javascript">
@@ -19,14 +20,41 @@
     }
 	
 	var handlePatientRowSelection =  new handlePatientRowSelection();
+	var searchFromSystem = false;
+	var opdQueueLabel = "OPD PATIENT QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+	var patientInSystemLabel = "PATIENTS IN SYSTEM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
+
+	var toggleQueueSystemTables = function () {
+		if (jq('#search-in-db').is(':checked')) {
+			console.log("show system");
+			jq('.page-label').html(patientInSystemLabel);
+			jq('.in-system').show();
+			jq('.queue').hide();
+			searchFromSystem = true;
+		} else {
+			console.log("show queue");
+			jq('.page-label').html(opdQueueLabel);
+			jq('.in-system').hide();
+			jq('.queue').show();
+			searchFromSystem = false;
+		}
+	}
 	
 	jq(document).ready(function () {
+
+		toggleQueueSystemTables()
+
+		jq('.in-system').hide();
 		jq('#search-in-db').change(function() {
+			toggleQueueSystemTables();
 			if(this.checked) {
 				jq('#advanced').addClass('advancedcolor');
 			}
 			else {
 				jq('#advanced').removeClass('advancedcolor');
+				startTimer();
+				bindPatientQueueSearchEvent();
+				jq("#patient-search-clear-button").click();
 			}
 		});
 		
@@ -44,11 +72,7 @@
 		});
 		
 		if (jq.session.get("selected-option-opd")!= ''){
-			jq("#queue-choice").val(jq.session.get("selected-option-opd"));
-			
-			if (jq("#queue-choice").val() != 0){
-				startRefresh();
-			}
+			jq("#queue-choice").val(jq.session.get("selected-option-opd")).change();
 		}
 	});
 	
@@ -88,7 +112,7 @@
 	.results {
 		margin-top: 1em;
 	}
-	#patient-queue tbody tr:hover {
+	#patient-queue tbody tr:hover, #patients-in-system tbody tr:hover {
 		background-color: #f26522;
 		cursor: pointer;
 	}
@@ -286,7 +310,7 @@
 		<div class="patient-header new-patient-header">
 			<div class="demographics">
 				<h1 class="name" style="border-bottom: 1px solid #ddd;">
-					<span>OPD PATIENT QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+					<span class="page-label">OPD PATIENT QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
 				</h1>
 			</div>
 
@@ -324,7 +348,7 @@
 				</form>
 			</div>
 			
-			<div id="dashboard" class="dashboard" style="display:none;">
+			<div id="dashboard" class="dashboard advanced-search" style="display:none;">
 				<div class="info-section">
 					<div class="info-header">
 						<i class="icon-diagnosis"></i>
@@ -437,38 +461,67 @@
 	</div>
 	
 	<div class="results">
-		<table id="patient-queue" class="dataTable">
-			<thead>
-			<tr role="row">
-				<th class="ui-state-default" style="width: 160px;">
-					<div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div>
-				</th>
-
-				<th class="ui-state-default">
-					<div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div>
-				</th>
-
-				<th class="ui-state-default" style="width: 80px;">
-					<div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
-				</th>
-
-				<th class="ui-state-default" style="width: 65px;">
-					<div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
-				</th>
-
-				<th class="ui-state-default" style="width:95px;">
-					<div class="DataTables_sort_wrapper">Visit Status<span class="DataTables_sort_icon"></span></div>
-				</th>
-
-				<th class="user-processing ui-state-default" style="width: 150px;">
-					<div class="DataTables_sort_wrapper">Processing<span class="DataTables_sort_icon"></span></div>
-				</th>
-			</tr>
-			</thead>
-
-			<tbody>
-			</tbody>
-		</table>
+		<div class="queue">
+			<table id="patient-queue" class="dataTable">
+				<thead>
+				<tr role="row">
+					<th class="ui-state-default" style="width: 160px;">
+						<div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div>
+					</th>
+	
+					<th class="ui-state-default">
+						<div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div>
+					</th>
+	
+					<th class="ui-state-default" style="width: 80px;">
+						<div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
+					</th>
+	
+					<th class="ui-state-default" style="width: 65px;">
+						<div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
+					</th>
+	
+					<th class="ui-state-default" style="width:95px;">
+						<div class="DataTables_sort_wrapper">Visit Status<span class="DataTables_sort_icon"></span></div>
+					</th>
+	
+					<th class="user-processing ui-state-default" style="width: 150px;">
+						<div class="DataTables_sort_wrapper">Processing<span class="DataTables_sort_icon"></span></div>
+					</th>
+				</tr>
+				</thead>
+	
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="in-system">
+			<table id="patients-in-system" class="dataTable">
+				<thead>
+					<tr role="row">
+						<th class="ui-state-default" style="width: 160px;">
+							<div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div>
+						</th>
+		
+						<th class="ui-state-default">
+							<div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div>
+						</th>
+		
+						<th class="ui-state-default" style="width: 80px;">
+							<div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
+						</th>
+		
+						<th class="ui-state-default" style="width: 65px;">
+							<div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
+						</th>
+					</tr>
+				</thead>
+	
+				<tbody>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 

@@ -4,7 +4,7 @@ var timeout;
 var highlightedKeyboardRowIndex, dTable;
 
 function startRefresh(){
-	getPatientsInQueue(jq('#queue-choice').val());
+	getPatientsFromQueue();
 }
 
 var updateSearchResults = function(results){
@@ -26,14 +26,14 @@ var updateSearchResults = function(results){
 		dTable.fnAddData(dataRows);
 	}
 
-	refreshTable();
+	refreshInQueueTable();
 }
 
 var selectRow = function(selectedRowIndex) {
 	handlePatientRowSelection.handle(searchResultsData[selectedRowIndex]);
 }
 
-var refreshTable = function(){
+var refreshInQueueTable = function(){
 	var rowCount = searchResultsData.length;
 	if(rowCount == 0){
 		tableObject.find('td.dataTables_empty').html("No patient in queue");
@@ -41,12 +41,11 @@ var refreshTable = function(){
 	dTable.fnPageChange(0);
 }
 
-var getPatientsInQueue = function(opdId, searchPhrase){
+var getPatientsFromQueue = function(){
 	tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
 	jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInQueue"),
 		{
-		  'opdId': opdId,
-		  'phrase': searchPhrase
+		  'opdId': jq('#queue-choice').val()
 		})
 	.success(function(results) {
 		updateSearchResults(results.data);
@@ -62,6 +61,34 @@ var getPatientsInQueue = function(opdId, searchPhrase){
 	});
 };
 
+var startTimer = function () {
+	if (jq("#queue-choice").val() != 0 && !searchFromSystem){
+		console.log("starting timer");
+		startRefresh();
+		if (timeout) {
+			clearTimeout(timeout);    		
+		}
+		timeout = setInterval(startRefresh, 30000);
+	}
+}
+
+var bindPatientQueueSearchEvent = function () {
+    jq("#patient-search").on("keyup", function(){
+        if (!searchFromSystem) {
+            var searchPhrase = jq(this).val();
+            console.log("Searching for: " + searchPhrase);
+            dTable.api().search(searchPhrase).draw();
+        }
+    });
+
+    jq("#patient-search-clear-button").on("click", function(){
+        jq("#patient-search").val('');
+        if (!searchFromSystem) {
+            dTable.api().search('').draw();
+        }
+    });
+}
+
 var isTableEmpty = function(){
 	if(searchResultsData.length > 0){
 		return false
@@ -72,12 +99,16 @@ var isTableEmpty = function(){
 jq(function(){
     tableObject = jq("#patient-queue");
 
+    startTimer();
+
     jq('#queue-choice').change(function() {
-		getPatientsInQueue(jq(this).val());
-		if (timeout) {
-			clearTimeout(timeout);    		
-		}
-		timeout = setInterval(startRefresh, 30000);
+    	if (!searchFromSystem) {
+    		getPatientsFromQueue();
+    		if (timeout) {
+    			clearTimeout(timeout);    		
+    		}
+    		timeout = setInterval(startRefresh, 30000);
+    	}
     });
 	
     dTable = tableObject.dataTable({
@@ -133,14 +164,5 @@ jq(function(){
 		}
     });
 
-    jq("#patient-search").on("keyup", function(){
-        var searchPhrase = jq(this).val();
-        console.log("Searching for: " + searchPhrase);
-        dTable.api().search(searchPhrase).draw();
-    });
-
-    jq("#patient-search-clear-button").on("click", function(){
-        jq("#patient-search").val('');
-        dTable.api().search('').draw();
-    });
+    bindPatientQueueSearchEvent();
 });
