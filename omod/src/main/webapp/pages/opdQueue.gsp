@@ -112,10 +112,7 @@
 	.results {
 		margin-top: 1em;
 	}
-	#patient-queue tbody tr:hover, #patients-in-system tbody tr:hover {
-		background-color: #f26522;
-		cursor: pointer;
-	}
+	#patients-in-system tbody tr:hover,
 	#patient-queue tbody tr:hover {
 		background: #007fff;
 		cursor: pointer;
@@ -216,7 +213,6 @@
 	input, select{
 		margin: 0px;
 		display: inline-block;
-		min-width: 50px;
 		padding: 2px 10px;
 		background-color: #fff;
 		border: 1px solid #ddd;
@@ -279,7 +275,7 @@
 		top: 25px;
 	}
 	form select, .form select {
-		min-width: 100% !important;
+		min-width: 99% !important;
 	}
 </style>
 
@@ -323,7 +319,7 @@
 				<form id="queue-choice-form">
 					
 						<label for="queue-choice">Select Queue</label>
-						<select id="queue-choice" style="margin-top: 10px;">
+						<select id="queue-choice" style="margin-top: 10px; width: 100px;">
 							<option value="0">-- Please select --</option>
 							<% listOPD.each { it -> %>
 							<option value="${it.answerConcept.id}"> ${it.answerConcept.name} </option>
