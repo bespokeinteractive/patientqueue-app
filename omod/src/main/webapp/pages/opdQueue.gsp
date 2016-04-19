@@ -20,25 +20,9 @@
     }
 	
 	var handlePatientRowSelection =  new handlePatientRowSelection();
-	var searchFromSystem = false;
 	var opdQueueLabel = "OPD PATIENT QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
 	var patientInSystemLabel = "PATIENTS IN SYSTEM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
 
-	var toggleQueueSystemTables = function () {
-		if (jq('#search-in-db').is(':checked')) {
-			console.log("show system");
-			jq('.page-label').html(patientInSystemLabel);
-			jq('.in-system').show();
-			jq('.queue').hide();
-			searchFromSystem = true;
-		} else {
-			console.log("show queue");
-			jq('.page-label').html(opdQueueLabel);
-			jq('.in-system').hide();
-			jq('.queue').show();
-			searchFromSystem = false;
-		}
-	}
 	
 	jq(document).ready(function () {
 

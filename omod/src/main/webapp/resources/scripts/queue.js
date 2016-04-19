@@ -1,10 +1,27 @@
 var tableObject;
 var searchResultsData = [];
 var timeout;
+var searchFromSystem = false;
 var highlightedKeyboardRowIndex, dTable;
 
 function startRefresh(){
 	getPatientsFromQueue();
+}
+
+var toggleQueueSystemTables = function () {
+	if (jq('#search-in-db').is(':checked')) {
+		console.log("show system");
+		jq('.page-label').html(patientInSystemLabel);
+		jq('.in-system').show();
+		jq('.queue').hide();
+		searchFromSystem = true;
+	} else {
+		console.log("show queue");
+		jq('.page-label').html(opdQueueLabel);
+		jq('.in-system').hide();
+		jq('.queue').show();
+		searchFromSystem = false;
+	}
 }
 
 var updateSearchResults = function(results){
