@@ -6,6 +6,7 @@
 	ui.includeCss("registration", "onepcssgrid.css")
 	ui.includeCss("registration", "main.css")
 	
+    ui.includeJavascript("billingui", "moment.js")
     ui.includeJavascript("patientqueueapp", "jquery.dataTables.min.js")
     ui.includeJavascript("patientqueueapp", "queue.js")
     ui.includeJavascript("patientqueueapp", "searchInSystem.js")
@@ -261,6 +262,8 @@
 	form select, .form select {
 		min-width: 99% !important;
 	}
+	
+	
 </style>
 
 <header>
@@ -492,8 +495,12 @@
 							<div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
 						</th>
 		
-						<th class="ui-state-default" style="width: 65px;">
+						<th class="ui-state-default" style="width: 75px;">
 							<div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
+						</th>
+						
+						<th class="ui-state-default" style="width: 200px;">
+							<div class="DataTables_sort_wrapper">Last Visit<span class="DataTables_sort_icon"></span></div>
 						</th>
 					</tr>
 				</thead>

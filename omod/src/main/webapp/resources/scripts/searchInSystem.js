@@ -1,5 +1,6 @@
 var patientsInSystemTable;
 var patientsInSystemResultData = [];
+var recentPatientIds = [];
 var dPatientsInSystemTable;
 
 var getPatientsFromSystem = function() {
@@ -24,6 +25,7 @@ var getPatientsFromSystem = function() {
         }),
         success: function (data) {
             updateSearchResultsFromSystem(data);
+			console.log(data);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             console.log("error!");
@@ -40,7 +42,20 @@ var updateSearchResultsFromSystem = function (data) {
 			return;
 		}
 		var patient_name = result.names.replace(/\snull|[\[\]]/gi, "");
-		dataRows.push([result.wrapperIdentifier, patient_name, result.age, result.gender]);
+		var last_visit = result.formartedVisitDate;
+		
+		var visit 	= moment(last_visit,'DD/MM/YYYY HH:mm:ss');
+		var today 	= moment();
+		var hours 	= Math.round(moment.duration(today - visit).asHours());
+		
+		console.log(hours);
+		
+		if (hours <= 24){
+			recentPatientIds.push(result.wrapperIdentifier);
+			patient_name += ' <span class="recent-lozenge">Within 24hrs</span>'
+		}
+		
+		dataRows.push([result.wrapperIdentifier, patient_name, result.age, result.gender, visit.fromNow()]);
 	});
 
 	dPatientsInSystemTable.api().clear();
@@ -53,7 +68,7 @@ var updateSearchResultsFromSystem = function (data) {
 }
 
 var refreshInSystemTable = function(){
-	var rowCount = searchResultsData.length;
+	var rowCount = patientsInSystemResultData.length;
 	if(rowCount == 0){
 		patientsInSystemTable.find('td.dataTables_empty').html("No patients found.");
 	}
@@ -149,6 +164,13 @@ jq(function(){
                     });
                 }
             );
-        }
+        },
+		
+		fnRowCallback : function (nRow, aData, index){
+			if (patientsInSystemResultData[index].wrapperIdentifier && jq.inArray(patientsInSystemResultData[index].wrapperIdentifier, recentPatientIds)>-1){
+				nRow.className += " from-lab";
+				return nRow;
+			}
+		}
     });
 });

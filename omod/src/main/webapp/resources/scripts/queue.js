@@ -67,9 +67,9 @@ var getPatientsFromQueue = function(){
 	.success(function(results) {
 		updateSearchResults(results.data);
 		if(results.user==="triageUser"){
-			jq(".user-processing").text("Nurse Processing");
+			//jq(".user-processing").text("Nurse Processing");
 		}else{
-			jq(".user-processing").text("Doctor Processing");
+			//jq(".user-processing").text("Doctor Processing");
 		}
 
 	})
