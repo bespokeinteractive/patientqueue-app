@@ -56,6 +56,16 @@
 	</mappingFiles>
 
 	<!-- Internationalization -->
+	<privilege>
+		<name>App: triageapp</name>
+		<description>Able to access the triage app</description>
+	</privilege>
+
+	<privilege>
+		<name>App: patientdashboardapp</name>
+		<description>Able to access the patientdashboard app</description>
+	</privilege>
+
 	<!-- All message codes should start with ${project.parent.artifactId}. -->
 	<messages>
 		<lang>en</lang>
