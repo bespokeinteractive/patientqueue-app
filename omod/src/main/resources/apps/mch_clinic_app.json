@@ -11,11 +11,8 @@
         "url": "",        // clicking on the app icon goes to this link,
         "order": 10,
         "icon": "icon-tasks",        // see the uicommons style guide icons
-        "requiredPrivilege": "App: referenceapplication.quickSummary"        // require this privilege to show the link
+        "requiredPrivilege": ""        // require this privilege to show the link
       }
-    ],
-    "config": {
-      "onSelectUrl": ""
-    }
+    ]
   }
 ]

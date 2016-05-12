@@ -8,14 +8,11 @@
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",
         "label": "Mch Triage",        // text or message code (this is shown to the user)
-        "url": "",        // clicking on the app icon goes to this link,
+        "url": "patientqueueapp/mchTriageQueue.page?",        // clicking on the app icon goes to this link,
         "order": 9,
         "icon": "icon-tasks",        // see the uicommons style guide icons
-        "requiredPrivilege": "App: referenceapplication.quickSummary"        // require this privilege to show the link
+        "requiredPrivilege": ""        // require this privilege to show the link
       }
-    ],
-    "config": {
-      "onSelectUrl": ""
-    }
+    ]
   }
 ]
