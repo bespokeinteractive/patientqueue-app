@@ -1,0 +1,21 @@
+[
+  {
+    "id": "mchapp.triage",        // unique id for this app, unique across all apps, typically starts with your module id
+    "description": "View patient in MCH Triage queue",        // plain text or a message code (not displayed to end-users)
+    "extensions": [
+      {
+        "id": "mchapp.opdqueue.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "Mch Triage",        // text or message code (this is shown to the user)
+        "url": "",        // clicking on the app icon goes to this link,
+        "order": 9,
+        "icon": "icon-tasks",        // see the uicommons style guide icons
+        "requiredPrivilege": "App: referenceapplication.quickSummary"        // require this privilege to show the link
+      }
+    ],
+    "config": {
+      "onSelectUrl": ""
+    }
+  }
+]
