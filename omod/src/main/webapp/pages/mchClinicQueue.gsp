@@ -1,5 +1,5 @@
 <%
-    ui.decorateWith("appui", "standardEmrPage", [title: "Mch Triage Queue"])
+    ui.decorateWith("appui", "standardEmrPage", [title: "Mch Clinic Queue"])
     ui.includeCss("uicommons", "datatables/dataTables_jui.css")
     ui.includeCss("coreapps", "patientsearch/patientSearchWidget.css")
     ui.includeJavascript("patientqueueapp", "jquery.dataTables.min.js")
@@ -9,13 +9,12 @@
 <script>
     var getPatientsFromQueue = function(){
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
-        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchTriageQueue"),
+        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchClinicQueue"),
                 {
                     'mchConceptId': ${mchConceptId}
                 })
                 .success(function(results) {
                     updateSearchResults(results.data);
-
                 })
                 .fail(function(xhr, status, err) {
                     updateSearchResults([]);
@@ -99,7 +98,7 @@ form select, .form select {
 
             <li>
                 <i class="icon-chevron-right link"></i>
-                <a>Mch Triage Queue</a>
+                <a>Mch Clinic Queue</a>
             </li>
 
             <li>
@@ -112,7 +111,7 @@ form select, .form select {
     <div class="patient-header new-patient-header">
         <div class="demographics">
             <h1 class="name" style="border-bottom: 1px solid #ddd;">
-                <span>MCH TRIAGE QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                <span>MCH CLINIC QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
             </h1>
         </div>
 

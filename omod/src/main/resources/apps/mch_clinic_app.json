@@ -8,7 +8,7 @@
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",
         "label": "Mch Clinic",        // text or message code (this is shown to the user)
-        "url": "",        // clicking on the app icon goes to this link,
+        "url": "patientqueueapp/mchClinicQueue.page",        // clicking on the app icon goes to this link,
         "order": 10,
         "icon": "icon-tasks",        // see the uicommons style guide icons
         "requiredPrivilege": ""        // require this privilege to show the link
