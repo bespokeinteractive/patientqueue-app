@@ -7,6 +7,15 @@
     ui.includeJavascript("patientqueueapp", "jquery.session.js")
 %>
 <script>
+    function handlePatientRowSelection() {
+        this.handle = function (row) {
+            console.log("Row status: " + row.status);
+            var mchTriageUrl = "/mchapp/triage.page?patientId=" + row.patient.id;
+            location.href = '/' + OPENMRS_CONTEXT_PATH + emr.applyContextModel(mchTriageUrl);
+        }
+    }
+    var handlePatientRowSelection =  new handlePatientRowSelection();
+
     var getPatientsFromQueue = function(){
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
         jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchTriageQueue"),
