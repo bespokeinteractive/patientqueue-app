@@ -137,7 +137,9 @@
 						<select id="queue-choice">
 							<option value="0">-- Please select --</option>
 							<% listOPD.each { it -> %>
-							<option value="${it.answerConcept.id}"> ${it.answerConcept.name} </option>
+								<% if (it.answerConcept.id != 5123) { %>								
+									<option value="${it.answerConcept.id}"> ${it.answerConcept.name} </option>
+								<% } %>
 							<% } %>
 						</select>
 					</p>
