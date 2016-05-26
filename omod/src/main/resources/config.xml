@@ -56,6 +56,15 @@
 	</mappingFiles>
 
 	<!-- Internationalization -->
+	<privilege>
+		<name>App: Access MCH Triage</name>
+		<description>Able to access the MCH Triage App</description>
+	</privilege>
+	<privilege>
+		<name>App: Access MCH Clinic</name>
+		<description>Able to access the MCH Clinic App</description>
+	</privilege>
+
 	<!-- All message codes should start with ${project.parent.artifactId}. -->
 	<messages>
 		<lang>en</lang>

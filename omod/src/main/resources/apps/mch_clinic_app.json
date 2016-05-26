@@ -11,7 +11,7 @@
         "url": "patientqueueapp/mchClinicQueue.page",        // clicking on the app icon goes to this link,
         "order": 10,
         "icon": "icon-tasks",        // see the uicommons style guide icons
-        "requiredPrivilege": ""        // require this privilege to show the link
+        "requiredPrivilege": "Access MCH Clinic"        // require this privilege to show the link
       }
     ]
   }
