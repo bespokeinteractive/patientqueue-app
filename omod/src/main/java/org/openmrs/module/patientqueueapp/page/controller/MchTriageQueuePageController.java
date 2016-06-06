@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class MchTriageQueuePageController {
     private static final String MCH_TRIAGE_CONCEPT_NAME = "MCH TRIAGE";
-    public void get(
+    public String get(
             UiSessionContext sessionContext,
             PageModel model,
             HttpSession session,
@@ -34,9 +34,14 @@ public class MchTriageQueuePageController {
     ) {
         pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
         sessionContext.requireAuthentication();
+        Boolean isPriviledged = Context.hasPrivilege("Access MCH Triage");
+        if(!isPriviledged){
+            return "redirect: index.htm";
+        }
         Concept mchConcept = Context.getConceptService().getConceptByName(MCH_TRIAGE_CONCEPT_NAME);
         Integer mchConceptId = mchConcept.getConceptId();
         model.addAttribute("mchConceptId",mchConceptId);
         model.addAttribute("date", new Date());
+        return null;
     }
 }
