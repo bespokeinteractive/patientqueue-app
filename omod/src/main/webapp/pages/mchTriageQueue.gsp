@@ -9,9 +9,7 @@
 <script>
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            console.log("Row status: " + row.status);
-            var mchTriageUrl = "/mchapp/triage.page?patientId=" + row.patient.id + "&queueId=" + row.id;
-            location.href = '/' + OPENMRS_CONTEXT_PATH + emr.applyContextModel(mchTriageUrl);
+            window.location = emr.pageLink("mchapp", "triage", { "patientId" : row.patient.id, "queueId" : row.id })
         }
     }
     var handlePatientRowSelection =  new handlePatientRowSelection();
