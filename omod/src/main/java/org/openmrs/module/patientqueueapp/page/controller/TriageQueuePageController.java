@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Dennys Henry on 2/17/2016.
  */
 public class TriageQueuePageController {
-    public void get(
+    public String get(
             @RequestParam("app") AppDescriptor appDescriptor,
             UiSessionContext sessionContext,
             PageModel model,
@@ -32,6 +32,10 @@ public class TriageQueuePageController {
             ) {
         pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
         sessionContext.requireAuthentication();
+        Boolean isPriviledged = Context.hasPrivilege("Access Triage");
+        if(!isPriviledged){
+            return "redirect: index.htm";
+        }
         model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
         User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", "Triage Queue");
@@ -43,5 +47,6 @@ public class TriageQueuePageController {
             Collections.sort(list, new ConceptAnswerComparator());
         }
         model.addAttribute("listOPD", list);
+        return null;
     }
 }
