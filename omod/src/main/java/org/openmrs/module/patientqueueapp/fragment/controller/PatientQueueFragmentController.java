@@ -1,5 +1,6 @@
 package org.openmrs.module.patientqueueapp.fragment.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -63,9 +64,27 @@ public class PatientQueueFragmentController {
 		
 		List<OpdPatientQueue> matchingPatientsInQueue = queueService.listOpdPatientQueue(patient.getPatientIdentifier().getIdentifier(), opdId, "", 0, 0);
 		OpdPatientQueue patientInQueue = null;
+		List<Encounter> existingEncounters = Context.getEncounterService().getEncounters(patient, null, null, null, null, null, null, null, null, false);
+		String visitStatus = null;
+		if (existingEncounters.size() > 1) {
+			visitStatus = "Revisit";
+		} else if (existingEncounters.size() == 1) {
+			Calendar today = Calendar.getInstance();
+			Calendar encounterDate = Calendar.getInstance();
+			encounterDate.setTime(existingEncounters.get(0).getEncounterDatetime());
+			if (today.get(Calendar.YEAR) == encounterDate.get(Calendar.YEAR) &&
+					today.get(Calendar.DAY_OF_YEAR) == encounterDate.get(Calendar.DAY_OF_YEAR)) {
+				visitStatus = "New Patient";
+			} else {
+				visitStatus = "Revisit";
+			}
+		} else {
+			visitStatus = "New Patient";
+		}
 		if (matchingPatientsInQueue.size() == 0) {
 			Concept selectedOpdConcept = Context.getConceptService().getConcept(opdId);
 			patientInQueue = new OpdPatientQueue();
+			patientInQueue.setVisitStatus(visitStatus);
 			patientInQueue.setUser(Context.getAuthenticatedUser());
 			patientInQueue.setPatient(patient);
 			patientInQueue.setCreatedOn(new Date());
