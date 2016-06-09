@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by Dennys Henry on 2/17/2016.
  */
 public class OpdQueuePageController {
-    public void get(
+    public String get(
             @RequestParam("app") AppDescriptor appDescriptor,
             UiSessionContext sessionContext,
             PageModel model,
@@ -33,6 +33,11 @@ public class OpdQueuePageController {
             PageRequest pageRequest
             ) {
         pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
+        sessionContext.requireAuthentication();
+        Boolean isPriviledged = Context.hasPrivilege("Access OPD");
+        if(!isPriviledged){
+            return "redirect: index.htm";
+        }
         model.addAttribute("afterSelectedUrl", appDescriptor.getConfig().get("onSelectUrl").getTextValue());
         User usr = Context.getAuthenticatedUser();
         model.addAttribute("title", "OPD Queue");
@@ -50,5 +55,6 @@ public class OpdQueuePageController {
             Collections.sort( patientList, new ConceptAnswerComparator());
         }
         model.addAttribute("listOPD",  patientList);
+        return null;
     }
 }

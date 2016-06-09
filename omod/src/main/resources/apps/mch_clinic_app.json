@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mchapp.clinic",        // unique id for this app, unique across all apps, typically starts with your module id
+    "description": "View patient in MCH Clinic queue",        // plain text or a message code (not displayed to end-users)
+    "extensions": [
+      {
+        "id": "mchapp.mchclinicqueue.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "Mch Clinic",        // text or message code (this is shown to the user)
+        "url": "patientqueueapp/mchClinicQueue.page",        // clicking on the app icon goes to this link,
+        "order": 10,
+        "icon": "icon-tasks",        // see the uicommons style guide icons
+        "requiredPrivilege": "Access MCH Clinic"        // require this privilege to show the link
+      }
+    ]
+  }
+]

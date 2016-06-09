@@ -149,15 +149,26 @@ jq(function(){
                     var selectedPatient = _.find(patientsInSystemResultData, function(data) {
                         return data.wrapperIdentifier == selectedPatientId;
                     });
+
+                    var opdId = jq('#queue-choice').val();
+                    if(opdId == null){
+                        opdId = 5704;
+                    }
+
                     jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "addPatientToQueue"),
                         {
                           'patientId': selectedPatient.patientId,
-                          'opdId': jq('#queue-choice').val()
+                          'opdId': opdId
                         })
                     .success(function(data) {
                         jq('#search-in-db').attr("checked", false);
                         jq("#patient-search-clear-button").click();
-                        window.location = emr.pageLink("patientdashboardapp", "main", { "patientId" : selectedPatient.patientId, "opdId": jq('#queue-choice').val(), "queueId" : data.queueId })
+                        var opdId = jq('#queue-choice').val();
+                        if(opdId == null){
+                            window.location = emr.pageLink("mchapp", "main", { "patientId" : selectedPatient.patientId, "queueId" : data.queueId })
+                        }else{
+                            window.location = emr.pageLink("patientdashboardapp", "main", { "patientId" : selectedPatient.patientId, "opdId": opdId, "queueId" : data.queueId })
+                        }
                     })
                     .fail(function(xhr, status, err) {
                         jq().toastmessage('showWarningToast', "An error occured while saving patient to queue please try again.");

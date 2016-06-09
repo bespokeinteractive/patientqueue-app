@@ -1,5 +1,6 @@
 package org.openmrs.module.patientqueueapp.fragment.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PatientQueueFragmentController {
 	
 	public void controller() {}
+
+	public SimpleObject getPatientsInMchTriageQueue(@RequestParam("mchConceptId") Integer mchConceptId,UiUtils ui){
+		List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue("", mchConceptId, "", 0, 0);
+		List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
+		return SimpleObject.create("data", patientQueueObject);
+	}
+
+	public SimpleObject getPatientsInMchClinicQueue(@RequestParam("mchConceptId") Integer mchConceptId,UiUtils ui){
+		List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue("", mchConceptId, "", 0, 0);
+		List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id", "referralConcept.conceptId");
+		return SimpleObject.create("data", patientQueueObject);
+	}
 	
 	public SimpleObject getPatientsInQueue(@RequestParam("opdId") Integer opdId, @RequestParam(value = "query", required = false) String query, UiUtils ui) {
 		Concept queueConcept = Context.getConceptService().getConcept(opdId);
@@ -35,6 +48,10 @@ public class PatientQueueFragmentController {
 			List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue(query.trim(), opdId, "", 0, 0);
 			List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id", "referralConcept.conceptId");
 			patientQueueData = SimpleObject.create("data", patientQueueObject, "user", "opdUser");
+		} else if(conceptAnswerName.equals("SPECIAL CLINIC")) {
+			List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue(query.trim(), opdId, "", 0, 0);
+			List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id", "referralConcept.conceptId");
+			patientQueueData = SimpleObject.create("data", patientQueueObject, "user", "opdUser");
 		}
 		return patientQueueData;
 	}
@@ -47,9 +64,27 @@ public class PatientQueueFragmentController {
 		
 		List<OpdPatientQueue> matchingPatientsInQueue = queueService.listOpdPatientQueue(patient.getPatientIdentifier().getIdentifier(), opdId, "", 0, 0);
 		OpdPatientQueue patientInQueue = null;
+		List<Encounter> existingEncounters = Context.getEncounterService().getEncounters(patient, null, null, null, null, null, null, null, null, false);
+		String visitStatus = null;
+		if (existingEncounters.size() > 1) {
+			visitStatus = "Revisit";
+		} else if (existingEncounters.size() == 1) {
+			Calendar today = Calendar.getInstance();
+			Calendar encounterDate = Calendar.getInstance();
+			encounterDate.setTime(existingEncounters.get(0).getEncounterDatetime());
+			if (today.get(Calendar.YEAR) == encounterDate.get(Calendar.YEAR) &&
+					today.get(Calendar.DAY_OF_YEAR) == encounterDate.get(Calendar.DAY_OF_YEAR)) {
+				visitStatus = "New Patient";
+			} else {
+				visitStatus = "Revisit";
+			}
+		} else {
+			visitStatus = "New Patient";
+		}
 		if (matchingPatientsInQueue.size() == 0) {
 			Concept selectedOpdConcept = Context.getConceptService().getConcept(opdId);
 			patientInQueue = new OpdPatientQueue();
+			patientInQueue.setVisitStatus(visitStatus);
 			patientInQueue.setUser(Context.getAuthenticatedUser());
 			patientInQueue.setPatient(patient);
 			patientInQueue.setCreatedOn(new Date());
