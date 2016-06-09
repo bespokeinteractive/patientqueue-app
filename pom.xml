@@ -120,7 +120,7 @@
 
                 <groupId>org.openmrs.module</groupId>
                 <artifactId>hospitalcore-api</artifactId>
-                <version>1.5.3-SNAPSHOT</version>
+                <version>1.5.3</version>
                 <scope>provided</scope>
 
             </dependency>
