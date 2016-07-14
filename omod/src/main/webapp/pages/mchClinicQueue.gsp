@@ -296,7 +296,7 @@ form select, .form select {
 
             <li>
                 <i class="icon-chevron-right link"></i>
-                <a>OPD Queue</a>
+                <a>MCH Clinic Queue</a>
             </li>
 
             <li>
