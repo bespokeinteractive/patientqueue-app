@@ -9,7 +9,7 @@
 <script>
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            window.location = emr.pageLink("mchapp", "triage", { "patientId" : row.patient.id, "queueId" : row.id })
+            window.location = emr.pageLink("mchapp", "triage", { "patientId" : row.patientId, "queueId" : row.id })
         }
     }
     var handlePatientRowSelection =  new handlePatientRowSelection();
@@ -21,11 +21,11 @@
                     'mchConceptId': ${mchConceptId}
                 })
                 .success(function(results) {
-                    updateSearchResults(results.data);
+                    updateMCHSearchResults(results.data);
 
                 })
                 .fail(function(xhr, status, err) {
-                    updateSearchResults([]);
+                    updateMCHSearchResults([]);
                 });
     };
 </script>
@@ -154,6 +154,10 @@ form select, .form select {
 
             <th class="ui-state-default" style="width: 80px;">
                 <div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
+            </th>
+
+            <th class="ui-state-default" style="width: 80px;">
+                <div class="DataTables_sort_wrapper">Clinic<span class="DataTables_sort_icon"></span></div>
             </th>
 
             <th class="ui-state-default" style="width: 65px;">

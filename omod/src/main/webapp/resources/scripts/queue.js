@@ -34,11 +34,32 @@ var updateSearchResults = function(results){
 			patient_name += " <span class='recent-lozenge'>From Lab</span>";
 		}
 		
-		dataRows.push([result.patientIdentifier, patient_name, result.age, result.sex, result.visitStatus, result.status]);
+		dataRows.push([result.patientIdentifier, patient_name, result.age,  result.sex, result.visitStatus, result.status]);
 	});
 
 	dTable.api().clear();
 	
+	if(dataRows.length > 0) {
+		dTable.fnAddData(dataRows);
+	}
+
+	refreshInQueueTable();
+}
+var updateMCHSearchResults = function(results){
+	searchResultsData = results || [];
+	var dataRows = [];
+	_.each(searchResultsData, function(result){
+		var patient_name = result.patientName.replace("null","");
+
+		if (result.referralConcept && result.referralConcept.conceptId == 2548){
+			patient_name += " <span class='recent-lozenge'>From Lab</span>";
+		}
+
+		dataRows.push([result.patientIdentifier, patient_name, result.age, result.clinic, result.sex, result.visitStatus, result.status]);
+	});
+
+	dTable.api().clear();
+
 	if(dataRows.length > 0) {
 		dTable.fnAddData(dataRows);
 	}
