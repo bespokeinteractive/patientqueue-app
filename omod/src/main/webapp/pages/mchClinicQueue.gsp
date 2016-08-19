@@ -27,7 +27,8 @@
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
         jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchClinicQueue"),
                 {
-                    'mchConceptId': ${mchConceptId}
+                    'mchConceptId': ${mchConceptId},
+                    'mchExaminationConceptId': ${mchImmunizationConceptId}
                 })
                 .success(function(results) {
                     updateSearchResults(results.data);

@@ -15,7 +15,8 @@ import java.util.Date;
  * Created by qqnarf on 5/13/16.
  */
 public class MchClinicQueuePageController {
-    private static final String MCH_TRIAGE_CONCEPT_NAME = "MCH CLINIC";
+    private static final String MCH_CLINIC_CONCEPT_NAME = "MCH CLINIC";
+    private static final String MCH_IMMUNIZATION_CONCEPT_NAME = "MCH IMMUNIZATION";
     public String get(
             UiSessionContext sessionContext,
             PageModel model,
@@ -25,14 +26,18 @@ public class MchClinicQueuePageController {
     ) {
         pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL,ui.thisUrl());
         sessionContext.requireAuthentication();
-        Boolean isPriviledged = Context.hasPrivilege("Access MCH Clinic");
-        if(!isPriviledged){
+        Boolean isClinicPriviledged = Context.hasPrivilege("Access MCH Clinic");
+        Boolean isImmunizationPriviledged = Context.hasPrivilege("Access MCH Immunization");
+        if(!(isClinicPriviledged && isImmunizationPriviledged)){
             return "redirect: index.htm";
         }
 
-        Concept mchConcept = Context.getConceptService().getConceptByName(MCH_TRIAGE_CONCEPT_NAME);
-        Integer mchConceptId = mchConcept.getConceptId();
-        model.addAttribute("mchConceptId",mchConceptId);
+        Concept mchClinicConcept = Context.getConceptService().getConceptByName(MCH_CLINIC_CONCEPT_NAME);
+        Concept mchImmunizationConcept = Context.getConceptService().getConceptByName(MCH_IMMUNIZATION_CONCEPT_NAME);
+        Integer mchClinicConceptId = mchClinicConcept.getConceptId();
+        Integer mchExaminationConceptId = mchImmunizationConcept.getConceptId();
+        model.addAttribute("mchConceptId",mchClinicConceptId);
+        model.addAttribute("mchImmunizationConceptId",mchExaminationConceptId);
         model.addAttribute("date", new Date());
         return null;
     }

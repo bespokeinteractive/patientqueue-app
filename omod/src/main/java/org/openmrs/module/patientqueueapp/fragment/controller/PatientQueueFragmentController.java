@@ -1,9 +1,5 @@
 package org.openmrs.module.patientqueueapp.fragment.controller;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.Encounter;
@@ -17,6 +13,10 @@ import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 public class PatientQueueFragmentController {
 	
 	public void controller() {}
@@ -27,8 +27,11 @@ public class PatientQueueFragmentController {
 		return SimpleObject.create("data", patientQueueObject);
 	}
 
-	public SimpleObject getPatientsInMchClinicQueue(@RequestParam("mchConceptId") Integer mchConceptId,UiUtils ui){
+	public SimpleObject getPatientsInMchClinicQueue(@RequestParam("mchConceptId") Integer mchConceptId,
+													@RequestParam("mchExaminationConceptId") Integer mchExaminationConceptId,UiUtils ui){
 		List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue("", mchConceptId, "", 0, 0);
+		List<OpdPatientQueue> patientImmunizationsQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue("", mchExaminationConceptId, "", 0, 0);
+		patientQueues.addAll(patientImmunizationsQueues);
 		List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id", "referralConcept.conceptId");
 		return SimpleObject.create("data", patientQueueObject);
 	}
