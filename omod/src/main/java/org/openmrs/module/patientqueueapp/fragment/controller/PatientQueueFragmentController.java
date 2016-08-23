@@ -24,19 +24,19 @@ import java.util.Date;
 import java.util.List;
 
 public class PatientQueueFragmentController {
-	private static final String MCH_TRIAGE_USER_ANC_QUEUE = "";
-	private static final String MCH_TRIAGE_USER_PNC_QUEUE = "";
-	private static final String MCH_TRIAGE_USER_FP_QUEUE = "";
-	private static final String MCH_TRIAGE_USER_CWC_QUEUE = "";
+	private static final String MCH_TRIAGE_USER_ANC_QUEUE = "58ef4c93-8554-4b59-beed-ef4bce98daef";
+	private static final String MCH_TRIAGE_USER_PNC_QUEUE = "d7a58907-3269-4dc5-b09b-4ef73a56800e";
+	private static final String MCH_TRIAGE_USER_FP_QUEUE = "4fe27b7a-ee0b-4128-800e-da1fdc968ce9";
+	private static final String MCH_TRIAGE_USER_CWC_QUEUE = "5bd262d4-3fe0-4fde-9b2e-980c161c87df";
 
-	private static final String MCH_CLINIC_USER_ANC_QUEUE = "";
-	private static final String MCH_CLINIC_USER_PNC_QUEUE = "";
-	private static final String MCH_CLINIC_USER_FP_QUEUE = "";
-	private static final String MCH_CLINIC_USER_CWC_QUEUE = "";
+	private static final String MCH_CLINIC_USER_ANC_QUEUE = "f8ff74bd-e776-4025-a7d5-aa6c40b498a1";
+	private static final String MCH_CLINIC_USER_PNC_QUEUE = "2136bf9a-18b7-4179-858f-30c7cba191de";
+	private static final String MCH_CLINIC_USER_FP_QUEUE = "e2d5977d-2b92-4b39-b2c9-63bf0d21e8f2";
+	private static final String MCH_CLINIC_USER_CWC_QUEUE = "6285f88a-892c-41ca-9154-f127532f858c";
 
 	private static final String EXAM_ROOM_CONCEPT_UUID = "11303942-75cd-442a-aead-ae1d2ea9b3eb";
-	private static final String IMMUNIZATION_ROOM_CONCEPT_UUID = "11303942-75cd-442a-aead-ae1d2ea9b3eb";
-	private static final String FP_ROOM_CONCEPT_UUID = "";
+	private static final String IMMUNIZATION_ROOM_CONCEPT_UUID = "4e87c99b-8451-4789-91d8-2aa33fe1e5f6";
+	private static final String FP_ROOM_CONCEPT_UUID = "68f095fb-1701-42b1-bd30-46d5f0473ae6";
 
 	public void controller() {}
 
