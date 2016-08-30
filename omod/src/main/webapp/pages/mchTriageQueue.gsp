@@ -13,7 +13,6 @@
         }
     }
     var handlePatientRowSelection =  new handlePatientRowSelection();
-
     var getPatientsFromQueue = function(){
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
         jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchTriageQueue"),
@@ -28,68 +27,93 @@
                     updateMCHSearchResults([]);
                 });
     };
+	
+	jq(function() {
+		jq('#queueRoles input').click(function(){
+			dTable.api().draw();
+		});
+	});
 </script>
 <style>
-.results {
-    margin-top: 1em;
-}
-#patient-queue tbody tr:hover {
-    background-color: #f26522;
-    cursor: pointer;
-}
-#patient-queue tbody tr:hover {
-    background: #007fff;
-    cursor: pointer;
-    color: white;
-}
-#patient-queue tbody tr td.dataTables_empty:hover {
-    background: white;
-    cursor: default;
-    color: #363463;
-}
-#patient-search-clear-button {
-    margin-left: -25px;
-    position: relative;
-    right: 5px;
-}
-#patient-search-form input {
-    display: inline;
-    margin-top: 5px;
-}
-#breadcrumbs a, #breadcrumbs a:link, #breadcrumbs a:visited {
-    text-decoration: none;
-}
-.new-patient-header .identifiers {
-    margin-top: 5px;
-}
-#queue-choice-form{
-    display: inline-block;
-    width: 300px;
-}
-#patient-search-form {
-    display: inline-block;
-    width: 650px;
-}
-select:focus,
-input:focus {
-    outline: 2px none #000!important;
-}
-form p, .form p {
-    margin-bottom: 5px;
-}
-form label, .form label {
-    color: #009384;
-    padding-left: 5px;
-}
-#patient-search-clear-button {
-    cursor: pointer;
-}
-.name{
-    color: #f26522;
-}
-form select, .form select {
-    min-width: 97%!important;
-}
+	.results {
+		margin-top: 5px;
+	}
+	#patient-queue tbody tr:hover {
+		background-color: #f26522;
+		cursor: pointer;
+	}
+	#patient-queue tbody tr:hover {
+		background: #007fff;
+		cursor: pointer;
+		color: white;
+	}
+	#patient-queue tbody tr td.dataTables_empty:hover {
+		background: white;
+		cursor: default;
+		color: #363463;
+	}
+	#patient-search-clear-button {
+		margin-left: -25px;
+		position: relative;
+		right: 5px;
+	}
+	#patient-search-form input {
+		display: inline;
+		margin-top: 5px;
+	}
+	#breadcrumbs a, #breadcrumbs a:link, #breadcrumbs a:visited {
+		text-decoration: none;
+	}
+	.new-patient-header .identifiers {
+		margin-top: 5px;
+	}
+	#queue-choice-form{
+		display: inline-block;
+		width: 300px;
+	}
+	#patient-search-form {
+		display: inline-block;
+		width: 650px;
+	}
+	select:focus,
+	input:focus {
+		outline: 2px none #000!important;
+	}
+	form p, .form p {
+		margin-bottom: 5px;
+	}
+	form label, .form label {
+		color: #009384;
+		padding-left: 5px;
+	}
+	#patient-search-clear-button {
+		cursor: pointer;
+	}
+	.name{
+		color: #f26522;
+	}
+	form select, .form select {
+		min-width: 97%!important;
+	}
+	#queueRoles{
+		padding: 0 10px 0 0;
+	}
+	#queueRoles span{
+		border-left: 15px solid #363463;
+		font-family: "OpenSansBold";
+		font-size: 1em;
+		padding-left: 5px;
+	}
+	#queueRoles label{
+		background: lightyellow none repeat scroll 0 0;
+		border: 1px solid lightgrey;
+		border-radius: 4px;
+		color: #363463;
+		cursor: pointer;
+		float: right;
+		margin-left: 2px;
+		padding: 1px 6px;
+	}
 </style>
 
 <header>
@@ -129,14 +153,25 @@ form select, .form select {
         </div>
 
         <div class="onerow" style="margin-top: 40px">
-
-            <form style="width:100%" method="get" id="patient-search-form" onsubmit="return false">
+            <form style="width:100%; margin-bottom: 5px;" method="get" id="patient-search-form" onsubmit="return false">
                 <p>
                     <label for="patient-search">Filter Patient</label>
-                    <input style="width:97%" type="text" id="patient-search" placeholder="${ ui.message("coreapps.findPatient.search.placeholder") }"><i id="patient-search-clear-button" class="small icon-remove-sign"></i>
+                    <input style="width:99%" type="text" id="patient-search" placeholder="${ ui.message("coreapps.findPatient.search.placeholder") }"><i id="patient-search-clear-button" class="small icon-remove"></i>
                 </p>
             </form>
         </div>
+		
+		<div class="clear"></div>		
+		<div id="queueRoles">
+			<span>SELECT QUEUE</span>
+			<% mchQueueRoles.each { role -> %>
+				<label>
+					<input type="checkbox" value="${role.uuid}" checked/>
+					${role.description}					
+				</label>
+			<% } %>
+			
+		</div>
     </div>
 </div>
 

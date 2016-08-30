@@ -8,6 +8,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.hospitalcore.util.ConceptAnswerComparator;
+import org.openmrs.module.patientqueueapp.PatientQueueUtils;
 import org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
@@ -42,6 +43,7 @@ public class MchTriageQueuePageController {
         Integer mchConceptId = mchConcept.getConceptId();
         model.addAttribute("mchConceptId",mchConceptId);
         model.addAttribute("date", new Date());
+        model.addAttribute("mchQueueRoles", PatientQueueUtils.getMchappUserRoles(ui, "Triage"));
         return null;
     }
 }

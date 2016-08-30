@@ -1,15 +1,20 @@
 package org.openmrs.module.patientqueueapp.page.controller;
 
 import org.openmrs.Concept;
+import org.openmrs.Role;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.UiSessionContext;
+import org.openmrs.module.patientqueueapp.PatientQueueUtils;
 import org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants;
+import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.page.PageRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by qqnarf on 5/13/16.
@@ -38,6 +43,7 @@ public class MchClinicQueuePageController {
         Integer mchExaminationConceptId = mchImmunizationConcept.getConceptId();
         model.addAttribute("mchConceptId",mchClinicConceptId);
         model.addAttribute("mchImmunizationConceptId",mchExaminationConceptId);
+        model.addAttribute("mchQueueRoles", PatientQueueUtils.getMchappUserRoles(ui, "Clinic"));
         model.addAttribute("date", new Date());
         return null;
     }

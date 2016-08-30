@@ -12,6 +12,7 @@ import org.openmrs.module.hospitalcore.model.OpdPatientQueue;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueueLog;
 import org.openmrs.module.hospitalcore.model.TriagePatientQueue;
 import org.openmrs.module.mchapp.api.MchService;
+import org.openmrs.module.patientqueueapp.PatientQueueUtils;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,33 +25,12 @@ import java.util.Date;
 import java.util.List;
 
 public class PatientQueueFragmentController {
-	private static final String MCH_TRIAGE_USER_ANC_QUEUE = "58ef4c93-8554-4b59-beed-ef4bce98daef";
-	private static final String MCH_TRIAGE_USER_PNC_QUEUE = "d7a58907-3269-4dc5-b09b-4ef73a56800e";
-	private static final String MCH_TRIAGE_USER_FP_QUEUE = "4fe27b7a-ee0b-4128-800e-da1fdc968ce9";
-	private static final String MCH_TRIAGE_USER_CWC_QUEUE = "5bd262d4-3fe0-4fde-9b2e-980c161c87df";
-
-	private static final String MCH_CLINIC_USER_ANC_QUEUE = "f8ff74bd-e776-4025-a7d5-aa6c40b498a1";
-	private static final String MCH_CLINIC_USER_PNC_QUEUE = "2136bf9a-18b7-4179-858f-30c7cba191de";
-	private static final String MCH_CLINIC_USER_FP_QUEUE = "e2d5977d-2b92-4b39-b2c9-63bf0d21e8f2";
-	private static final String MCH_CLINIC_USER_CWC_QUEUE = "6285f88a-892c-41ca-9154-f127532f858c";
-
-	private static final String EXAM_ROOM_CONCEPT_UUID = "11303942-75cd-442a-aead-ae1d2ea9b3eb";
-	private static final String IMMUNIZATION_ROOM_CONCEPT_UUID = "4e87c99b-8451-4789-91d8-2aa33fe1e5f6";
-	private static final String FP_ROOM_CONCEPT_UUID = "68f095fb-1701-42b1-bd30-46d5f0473ae6";
-
 	public void controller() {}
 
 	public SimpleObject getPatientsInMchTriageQueue(@RequestParam("mchConceptId") Integer mchConceptId,UiUtils ui){
-		List<Role> roles = new ArrayList<Role>(Context.getAuthenticatedUser().getAllRoles());
-		List<Role> mchRoles = new ArrayList<Role>();
-		for (Role role : roles) {
-			if (role.getUuid().equals(MCH_TRIAGE_USER_ANC_QUEUE) || role.getUuid().equals(MCH_TRIAGE_USER_PNC_QUEUE) || role.getUuid().equals(MCH_TRIAGE_USER_CWC_QUEUE)||role.getUuid().equals(MCH_TRIAGE_USER_FP_QUEUE)) {
-				mchRoles.add(role);
-			}
-		}
-		List<SimpleObject> mchRolesObject = SimpleObject.fromCollection(mchRoles,ui,"role");
 		List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue("", mchConceptId, "", 0, 0);
 		List<SimpleObject> patientQueueObject = new ArrayList<SimpleObject>();
+
 		for (TriagePatientQueue patientQueue : patientQueues) {
 			SimpleObject patientInQueue = new SimpleObject();
 			patientInQueue.put("patientName", patientQueue.getPatientName());
@@ -67,27 +47,15 @@ public class PatientQueueFragmentController {
 			}
 			patientQueueObject.add(patientInQueue);
 		}
-		return SimpleObject.create("data", patientQueueObject, "mchRoles",mchRolesObject);
+		return SimpleObject.create("data", patientQueueObject);
 	}
-
 
 	public SimpleObject getPatientsInMchClinicQueue(@RequestParam("mchConceptId") Integer mchConceptId,
 													@RequestParam("mchExaminationConceptId") Integer mchExaminationConceptId,UiUtils ui){
+		Concept mchExamRoomConcept = Context.getConceptService().getConceptByUuid(PatientQueueUtils.EXAM_ROOM_CONCEPT_UUID);
 
-
-		List<Role> roles = new ArrayList<Role>(Context.getAuthenticatedUser().getAllRoles());
-		List<Role> mchRoles = new ArrayList<Role>();
-		for (Role role : roles) {
-			if (role.getUuid().equals(MCH_CLINIC_USER_ANC_QUEUE) || role.getUuid().equals(MCH_CLINIC_USER_PNC_QUEUE) || role.getUuid().equals(MCH_CLINIC_USER_CWC_QUEUE)||role.getUuid().equals(MCH_CLINIC_USER_FP_QUEUE)) {
-				mchRoles.add(role);
-			}
-		}
-		List<SimpleObject> mchRolesObject = SimpleObject.fromCollection(mchRoles,ui,"role");
-
-		Concept mchExamRoomConcept = Context.getConceptService().getConceptByUuid(EXAM_ROOM_CONCEPT_UUID);
-
-		Concept mchImmunizationRoomConcept = Context.getConceptService().getConceptByUuid(IMMUNIZATION_ROOM_CONCEPT_UUID);
-		Concept fpRoomConcept = Context.getConceptService().getConceptByUuid(FP_ROOM_CONCEPT_UUID);
+		Concept mchImmunizationRoomConcept = Context.getConceptService().getConceptByUuid(PatientQueueUtils.IMMUNIZATION_ROOM_CONCEPT_UUID);
+		Concept fpRoomConcept = Context.getConceptService().getConceptByUuid(PatientQueueUtils.FP_ROOM_CONCEPT_UUID);
 
 		List<OpdPatientQueue> patientQueues = new ArrayList<OpdPatientQueue>();
 		patientQueues.addAll(Context.getService(PatientQueueService.class).listOpdPatientQueue("", mchConceptId, "", 0, 0));
@@ -104,7 +72,6 @@ public class PatientQueueFragmentController {
 				}
 			}
 		});
-
 
 		List<SimpleObject> patientQueueObject = new ArrayList<SimpleObject>();
 		for(OpdPatientQueue patientQueue : patientQueues) {
@@ -130,13 +97,12 @@ public class PatientQueueFragmentController {
 				patientInQueue.put("clinic",enrolledMCHProgram(patientQueue.getPatient()));
 			}
 
-
 			if(patientQueue.getReferralConcept()!=null) {
 				patientInQueue.put("referralConcept.conceptId", patientQueue.getReferralConcept().getConceptId());
 			}
 			patientQueueObject.add(patientInQueue);
 		}
-		return SimpleObject.create("data", patientQueueObject, "mchRoles",mchRolesObject);
+		return SimpleObject.create("data", patientQueueObject);
 	}
 
 	public String enrolledMCHProgram(Patient patient)

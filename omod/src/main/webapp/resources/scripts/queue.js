@@ -4,22 +4,40 @@ var timeout;
 var searchFromSystem = false;
 var highlightedKeyboardRowIndex, dTable;
 
+(function(mchClinicConstants){
+    mchClinicConstants["f8ff74bd-e776-4025-a7d5-aa6c40b498a1"] = "ANC";
+    mchClinicConstants["58ef4c93-8554-4b59-beed-ef4bce98daef"] = "ANC";
+	
+    mchClinicConstants["2136bf9a-18b7-4179-858f-30c7cba191de"] = "PNC";
+    mchClinicConstants["d7a58907-3269-4dc5-b09b-4ef73a56800e"] = "PNC";
+	
+    mchClinicConstants["6285f88a-892c-41ca-9154-f127532f858c"] = "CWC";
+    mchClinicConstants["5bd262d4-3fe0-4fde-9b2e-980c161c87df"] = "CWC";
+	
+    mchClinicConstants["e2d5977d-2b92-4b39-b2c9-63bf0d21e8f2"] = "FP";
+    mchClinicConstants["4fe27b7a-ee0b-4128-800e-da1fdc968ce9"] = "FP";
+	
+    mchClinicConstants["380af934-440b-40e7-a1ba-bc987adaa5fe"] = "Immunization";
+})(window.mchClinicConstants = window.mchClinicConstants || {})
+
 function startRefresh(){
 	getPatientsFromQueue();
 }
 
 var toggleQueueSystemTables = function () {
 	if (jq('#search-in-db').is(':checked')) {
-		console.log("show system");
 		jq('.page-label').html(patientInSystemLabel);
 		jq('.in-system').show();
 		jq('.queue').hide();
+		jq('#queueRoles').hide(100);
+		
 		searchFromSystem = true;
 	} else {
-		console.log("show queue");
 		jq('.page-label').html(opdQueueLabel);
 		jq('.in-system').hide();
 		jq('.queue').show();
+		jq('#queueRoles').show(100);
+		
 		searchFromSystem = false;
 	}
 }
@@ -101,7 +119,6 @@ var getPatientsFromQueue = function(){
 
 var startTimer = function () {
 	if (jq("#queue-choice").val() != 0 && !searchFromSystem){
-		console.log("starting timer");
 		startRefresh();
 		if (timeout) {
 			clearTimeout(timeout);    		
@@ -114,7 +131,6 @@ var bindPatientQueueSearchEvent = function () {
     jq("#patient-search").on("keyup", function(){
         if (!searchFromSystem) {
             var searchPhrase = jq(this).val();
-            console.log("Searching for: " + searchPhrase);
             dTable.api().search(searchPhrase).draw();
         }
     });
@@ -133,6 +149,43 @@ var isTableEmpty = function(){
 	}
 	return !dTable || dTable.fnGetNodes().length == 0;
 };
+
+jq.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+		var inputFields = jq('#queueRoles input:checked');
+        var clinicType = data[3]; // use data for the age column
+		
+		if (jq('#search-in-db:checked').length > 0){
+			return true;
+		}		
+		else if (inputFields.length > 0){
+			var acceptedClinicTypes = ['N/A'];
+			
+			
+			jq.each(inputFields, function(index, field){
+				acceptedClinicTypes.push(mchClinicConstants[jq(field).val()]);				
+			});
+			
+			if (acceptedClinicTypes.indexOf(clinicType) != -1){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else if (jq('#queueRoles').length > 0){
+			if (clinicType == 'N/A'){
+				return true;				
+			}
+			else{
+				return false;
+			}
+		}
+		else{			
+			return true;
+		} 
+    }
+);
 	
 jq(function(){
     tableObject = jq("#patient-queue");
