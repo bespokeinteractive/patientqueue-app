@@ -464,9 +464,14 @@
             </div>
         </div>
 		
-		<div class="clear"></div>		
+		<div class="clear"></div>
 		<div id="queueRoles">
-			<span>SELECT QUEUE</span>
+			<% if (mchQueueRoles.size() == 0) { %>
+				<span>NO ROLES ASSIGNED</span>
+			<% } else { %>
+				<span>SELECT QUEUE</span>
+			<% } %>
+			
 			<% mchQueueRoles.each { role -> %>
 				<label>
 					<input type="checkbox" value="${role.uuid}" checked/>

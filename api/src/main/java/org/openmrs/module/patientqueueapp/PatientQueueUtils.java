@@ -32,8 +32,6 @@ public class PatientQueueUtils {
         List<Role> mchRoles = new ArrayList<Role>();
 
         for (Role role : roles) {
-            System.out.println(">> " + role.getName());
-
             if (clinic.equals("Triage")){
                 if (role.getUuid().equals(MCH_TRIAGE_USER_ANC_QUEUE) || role.getUuid().equals(MCH_TRIAGE_USER_PNC_QUEUE) || role.getUuid().equals(MCH_TRIAGE_USER_CWC_QUEUE) || role.getUuid().equals(MCH_TRIAGE_USER_FP_QUEUE)) {
                     mchRoles.add(role);
