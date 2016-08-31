@@ -15,15 +15,13 @@
 <script type="text/javascript">
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            window.location = emr.pageLink("mchapp", "main", { "patientId" : row.patient.id, "queueId" : row.id })
+            window.location = emr.pageLink("mchapp", "main", { "patientId" : row.patientId, "queueId" : row.id })
         }
     }
-
-
-
+	
     var handlePatientRowSelection =  new handlePatientRowSelection();
-
     var getPatientsFromQueue = function(){
+
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
         jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchClinicQueue"),
                 {
@@ -31,19 +29,17 @@
                     'mchExaminationConceptId': ${mchImmunizationConceptId}
                 })
                 .success(function(results) {
-                    updateSearchResults(results.data);
+                    updateMCHSearchResults(results.data);
                 })
                 .fail(function(xhr, status, err) {
-                    updateSearchResults([]);
+                    updateMCHSearchResults([]);
                 });
     };
 
-    var opdQueueLabel = "MCH Clinic Queue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
-    var patientInSystemLabel = "PATIENTS IN SYSTEM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
+    var opdQueueLabel = "&nbsp; MCH Clinic Queue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
 
-
+    var patientInSystemLabel = "&nbsp; PATIENTS IN SYSTEM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
     jq(document).ready(function () {
-
         toggleQueueSystemTables()
 
         jq('.in-system').hide();
@@ -76,6 +72,10 @@
         if (jq.session.get("selected-option-opd")!= ''){
             jq("#queue-choice").val(jq.session.get("selected-option-opd")).change();
         }
+		
+		jq('#queueRoles input').click(function(){
+			dTable.api().draw();
+		});
     });
 
     jQuery.fn.clearForm = function() {
@@ -111,176 +111,194 @@
 </script>
 
 <style>
-.results {
-    margin-top: 1em;
-}
-#patients-in-system tbody tr:hover,
-#patient-queue tbody tr:hover {
-    background: #007fff;
-    cursor: pointer;
-    color: white;
-}
-#patient-queue tbody tr td.dataTables_empty:hover {
-    background: white;
-    cursor: default;
-    color: #363463;
-}
-#patient-search-clear-button {
-    margin-left: -25px;
-    position: relative;
-    right: 5px;
-}
-#patient-search-form input {
-    display: inline;
-    margin-top: 5px;
-}
-#breadcrumbs a, #breadcrumbs a:link, #breadcrumbs a:visited {
-    text-decoration: none;
-}
-.new-patient-header .identifiers {
-    margin-top: 1px;
-}
-#queue-choice-form{
-    display: inline-block;
-    width: 300px;
-}
-#patient-search-form {
-    display: inline-block;
-    width: 630px;
-    float: right;
-}
-select:focus,
-input:focus {
-    outline: 2px none #000!important;
-}
-form p, .form p {
-    margin-bottom: 5px;
-}
-form label, .form label {
-    color: #009384;
-    display: inline-block;
-    padding-left: 5px;
-}
-#patient-search-clear-button {
-    cursor: pointer;
-}
-.name {
-    color: #f26522;
-}
-#for-search-in-db{
-    padding-right: 10px;
-    cursor: pointer;
-    float: right;
-    color: #363463;
-}
-#for-search-in-db input{
-    cursor: pointer;
-}
-form .advanced {
-    background: #888 none repeat scroll 0 0;
-    border-color: #dddddd;
-    border-style: solid;
-    border-width: 1px;
-    color: #fff;
-    cursor: pointer;
-    float: right;
-    padding: 5px 0;
-    text-align: center;
-    width: 35%;
-}
-.advancedcolor{
-    background: #363463 none repeat scroll 0 0!important;
-}
+	.results {
+		margin-top: 5px;
+	}
+	#patients-in-system tbody tr:hover,
+	#patient-queue tbody tr:hover {
+		background: #007fff;
+		cursor: pointer;
+		color: white;
+	}
+	#patient-queue tbody tr td.dataTables_empty:hover {
+		background: white;
+		cursor: default;
+		color: #363463;
+	}
+	#patient-search-clear-button {
+		margin-left: -25px;
+		position: relative;
+		right: 5px;
+	}
+	#patient-search-form input {
+		display: inline;
+		margin-top: 5px;
+	}
+	#breadcrumbs a, #breadcrumbs a:link, #breadcrumbs a:visited {
+		text-decoration: none;
+	}
+	.new-patient-header .identifiers {
+		margin-top: 1px;
+	}
+	#queue-choice-form{
+		display: inline-block;
+		width: 300px;
+	}
+	#patient-search-form {
+		display: inline-block;
+		width: 630px;
+		float: right;
+	}
+	select:focus,
+	input:focus {
+		outline: 2px none #000!important;
+	}
+	form p, .form p {
+		margin-bottom: 5px;
+	}
+	form label, .form label {
+		color: #009384;
+		display: inline-block;
+		padding-left: 5px;
+	}
+	#patient-search-clear-button {
+		cursor: pointer;
+	}
+	.name {
+		color: #f26522;
+	}
+	#for-search-in-db{
+		padding-right: 10px;
+		cursor: pointer;
+		float: right;
+		color: #363463;
+	}
+	#for-search-in-db input{
+		cursor: pointer;
+	}
+	form .advanced {
+		background: #888 none repeat scroll 0 0;
+		border-color: #dddddd;
+		border-style: solid;
+		border-width: 1px;
+		color: #fff;
+		cursor: pointer;
+		float: right;
+		padding: 5px 0;
+		text-align: center;
+		width: 35%;
+	}
+	.advancedcolor{
+		background: #363463 none repeat scroll 0 0!important;
+	}
 
-form .advanced i {
-    font-size: 22px;
-}
-.from-lab{
-    background: #fff799 none repeat scroll 0 0!important;
-    color: #000 !important;
-}
-.recent-lozenge {
-    border: 1px solid #f00;
-    border-radius: 4px;
-    color: #f00;
-    display: inline-block;
-    font-size: 0.7em;
-    padding: 1px 2px;
-    vertical-align: text-bottom;
-}
-.col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9, .col10, .col11, .col12 {
-    color: #555;
-    text-align: left;
-}
-input, select{
-    margin: 0px;
-    display: inline-block;
-    padding: 2px 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    color: #363463;
-}
-.info-header span{
-    cursor: pointer;
-    display: inline-block;
-    float: right;
-    margin-top: -2px;
-    padding-right: 5px;
-}
-.dashboard .info-section {
-    margin: 2px 5px 5px;
-}
-.toast-item{
-    background-color: #222;
-}
-.col4 label {
-    width: 110px;
-    display: inline-block;
-}
-.col4 input[type=text] {
-    display: inline-block;
-    padding: 2px 10px;
-}
-.col4 select {
-    padding: 2px 10px;
-}
-.last {
-    width: 32%!important;
-}
-form select {
-    min-width: 50px;
-    display: inline-block;
-}
-.addon{
-    display: inline-block;
-    float: right;
-    margin: 5px 0 0 145px;
-    position: absolute;
-}
-#lastDayOfVisit label{
-    display:none;
-}
-#lastDayOfVisit input{
-    width:145px !important;
-}
-.add-on {
-    float: right;
-    left: auto;
-    margin-left: -29px;
-    margin-top: 3px;
-    position: absolute;
-}
-.ui-widget-content a {
-    color: #007fff;
-}
-.toast-item-image {
-    top: 25px;
-}
-form select, .form select {
-    min-width: 99% !important;
-}
-
-
+	form .advanced i {
+		font-size: 22px;
+	}
+	.from-lab{
+		background: #fff799 none repeat scroll 0 0!important;
+		color: #000 !important;
+	}
+	.recent-lozenge {
+		border: 1px solid #f00;
+		border-radius: 4px;
+		color: #f00;
+		display: inline-block;
+		font-size: 0.7em;
+		padding: 1px 2px;
+		vertical-align: text-bottom;
+	}
+	.col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9, .col10, .col11, .col12 {
+		color: #555;
+		text-align: left;
+	}
+	input, select{
+		margin: 0px;
+		display: inline-block;
+		padding: 2px 10px;
+		background-color: #fff;
+		border: 1px solid #ddd;
+		color: #363463;
+	}
+	.info-header span{
+		cursor: pointer;
+		display: inline-block;
+		float: right;
+		margin-top: -2px;
+		padding-right: 5px;
+	}
+	.dashboard .info-section {
+		margin: 2px 5px 5px;
+		width: 98.5%;
+	}
+	.toast-item{
+		background-color: #222;
+	}
+	.col4 label {
+		width: 110px;
+		display: inline-block;
+	}
+	.col4 input[type=text] {
+		display: inline-block;
+		padding: 2px 10px;
+	}
+	.col4 select {
+		padding: 2px 10px;
+	}
+	.last {
+		width: 32%!important;
+	}
+	form select {
+		min-width: 50px;
+		display: inline-block;
+	}
+	.addon{
+		display: inline-block;
+		float: right;
+		margin: 5px 0 0 145px;
+		position: absolute;
+	}
+	#lastDayOfVisit label{
+		display:none;
+	}
+	#lastDayOfVisit input{
+		width:167px !important;
+	}
+	.add-on {
+		float: right;
+		left: auto;
+		margin-left: -29px;
+		margin-top: 3px;
+		position: absolute;
+	}
+	.ui-widget-content a {
+		color: #007fff;
+	}
+	.toast-item-image {
+		top: 25px;
+	}
+	form select, .form select {
+		min-width: 99% !important;
+	}
+	#queueRoles{
+		padding: 0 10px;
+	}
+	#queueRoles span{
+		border-left: 15px solid #363463;
+		font-family: "OpenSansBold";
+		font-size: 1em;
+		padding-left: 5px;
+	}
+	#queueRoles label{
+		background: lightyellow none repeat scroll 0 0;
+		border: 1px solid lightgrey;
+		border-radius: 4px;
+		color: #363463;
+		cursor: pointer;
+		float: right;
+		margin-left: 2px;
+		padding: 1px 6px;
+	}
 </style>
 
 <header>
@@ -320,7 +338,7 @@ form select, .form select {
         </div>
 
         <div class="onerow" style="margin-top: 40px">
-            <form style="width:100%" method="get" id="patient-search-form" onsubmit="return false">
+            <form style="width:100%; margin-bottom: 5px;" method="get" id="patient-search-form" onsubmit="return false">
                 <label for="patient-search" id="for-patient-search">Filter Queue</label>
                 <div onclick="ShowDashboard();" class="advanced" id="advanced">
                     <i class="icon-filter"></i>ADVANCED SEARCH
@@ -330,7 +348,7 @@ form select, .form select {
                     <input type="checkbox" name="search-in-db" id="search-in-db">Search In System
                 </label>
 
-                <input type="text" id="patient-search" placeholder="${ ui.message("coreapps.findPatient.search.placeholder") }" style="width: 96.4%;" /><i id="patient-search-clear-button" class="small icon-remove-sign"></i>
+                <input type="text" id="patient-search" placeholder="${ ui.message("coreapps.findPatient.search.placeholder") }" style="width: 100%;" /><i id="patient-search-clear-button" class="small icon-remove"></i>
 
             </form>
         </div>
@@ -368,7 +386,7 @@ form select, .form select {
 
                                 <div class="col4 last">
                                     <label for="relativeName">Relative Name</label>
-                                    <input id="relativeName" name="relativeName" style="width: 154px"
+                                    <input id="relativeName" name="relativeName" style="width: 184px"
                                            placeholder="Relative Name">
                                 </div>
                             </div>
@@ -376,7 +394,7 @@ form select, .form select {
                             <div class="onerow" style="padding-top: 2px;">
                                 <div class="col4">
                                     <label for="age">Age</label>
-                                    <input id="age" name="age" style="width: 145px" placeholder="Patient Age">
+                                    <input id="age" name="age" style="width: 167px" placeholder="Patient Age">
                                 </div>
 
                                 <div class="col4">
@@ -392,7 +410,7 @@ form select, .form select {
 
                                 <div class="col4 last">
                                     <label for="nationalId">National ID</label>
-                                    <input id="nationalId" name="nationalId" style="width: 154px" placeholder="National ID">
+                                    <input id="nationalId" name="nationalId" style="width: 184px" placeholder="National ID">
                                 </div>
                             </div>
 
@@ -411,12 +429,12 @@ form select, .form select {
 
                                 <div class="col4">
                                     <label for="phoneNumber">Phone No.</label>
-                                    <input id="phoneNumber" name="phoneNumber" style="width: 145px" placeholder="Phone No.">
+                                    <input id="phoneNumber" name="phoneNumber" style="width: 167px" placeholder="Phone No.">
                                 </div>
 
                                 <div class="col4 last">
                                     <label for="fileNumber">File Number</label>
-                                    <input id="fileNumber" name="fileNumber" style="width: 154px" placeholder="File Number">
+                                    <input id="fileNumber" name="fileNumber" style="width: 184px" placeholder="File Number">
                                 </div>
                             </div>
 
@@ -445,6 +463,23 @@ form select, .form select {
                 </div>
             </div>
         </div>
+		
+		<div class="clear"></div>
+		<div id="queueRoles">
+			<% if (mchQueueRoles.size() == 0) { %>
+				<span>NO ROLES ASSIGNED</span>
+			<% } else { %>
+				<span>SELECT QUEUE</span>
+			<% } %>
+			
+			<% mchQueueRoles.each { role -> %>
+				<label>
+					<input type="checkbox" value="${role.uuid}" checked/>
+					${role.description}					
+				</label>
+			<% } %>
+			
+		</div>
     </div>
 </div>
 
@@ -463,6 +498,10 @@ form select, .form select {
 
                 <th class="ui-state-default" style="width: 80px;">
                     <div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
+                </th>
+
+                <th class="ui-state-default" style="width: 80px;">
+                    <div class="DataTables_sort_wrapper">Clinic<span class="DataTables_sort_icon"></span></div>
                 </th>
 
                 <th class="ui-state-default" style="width: 65px;">
@@ -487,27 +526,27 @@ form select, .form select {
     <div class="in-system">
         <table id="patients-in-system" class="dataTable">
             <thead>
-            <tr role="row">
-                <th class="ui-state-default" style="width: 160px;">
-                    <div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div>
-                </th>
+				<tr role="row">
+					<th class="ui-state-default" style="width: 160px;">
+						<div class="DataTables_sort_wrapper">Identifier<span class="DataTables_sort_icon"></span></div>
+					</th>
 
-                <th class="ui-state-default">
-                    <div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div>
-                </th>
+					<th class="ui-state-default">
+						<div class="DataTables_sort_wrapper">Name<span class="DataTables_sort_icon"></span></div>
+					</th>
 
-                <th class="ui-state-default" style="width: 80px;">
-                    <div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
-                </th>
+					<th class="ui-state-default" style="width: 80px;">
+						<div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
+					</th>
 
-                <th class="ui-state-default" style="width: 75px;">
-                    <div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
-                </th>
+					<th class="ui-state-default" style="width: 75px;">
+						<div class="DataTables_sort_wrapper">Gender<span class="DataTables_sort_icon"></span></div>
+					</th>
 
-                <th class="ui-state-default" style="width: 200px;">
-                    <div class="DataTables_sort_wrapper">Last Visit<span class="DataTables_sort_icon"></span></div>
-                </th>
-            </tr>
+					<th class="ui-state-default" style="width: 200px;">
+						<div class="DataTables_sort_wrapper">Last Visit<span class="DataTables_sort_icon"></span></div>
+					</th>
+				</tr>
             </thead>
 
             <tbody>

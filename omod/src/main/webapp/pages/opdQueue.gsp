@@ -95,7 +95,7 @@
 
 <style>
 	.results {
-		margin-top: 1em;
+		margin-top: 5px;
 	}
 	#patients-in-system tbody tr:hover,
 	#patient-queue tbody tr:hover {
@@ -244,7 +244,7 @@
 		display:none;
 	}
 	#lastDayOfVisit input{
-		width:145px !important;
+		width:167px !important;
 	}
 	.add-on {
 		float: right;
@@ -364,7 +364,7 @@
 
 									<div class="col4 last">
 										<label for="relativeName">Relative Name</label>
-										<input id="relativeName" name="relativeName" style="width: 154px"
+										<input id="relativeName" name="relativeName" style="width: 182px"
 											   placeholder="Relative Name">
 									</div>
 								</div>
@@ -372,7 +372,7 @@
 								<div class="onerow" style="padding-top: 2px;">
 									<div class="col4">
 										<label for="age">Age</label>
-										<input id="age" name="age" style="width: 145px" placeholder="Patient Age">
+										<input id="age" name="age" style="width: 167px" placeholder="Patient Age">
 									</div>
 
 									<div class="col4">
@@ -387,7 +387,7 @@
 
 									<div class="col4 last">
 										<label for="nationalId">National ID</label>
-										<input id="nationalId" name="nationalId" style="width: 154px" placeholder="National ID">
+										<input id="nationalId" name="nationalId" style="width: 182px" placeholder="National ID">
 									</div>
 								</div>
 
@@ -406,12 +406,12 @@
 
 									<div class="col4">
 										<label for="phoneNumber">Phone No.</label>
-										<input id="phoneNumber" name="phoneNumber" style="width: 145px" placeholder="Phone No.">
+										<input id="phoneNumber" name="phoneNumber" style="width: 167px" placeholder="Phone No.">
 									</div>
 
 									<div class="col4 last">
 										<label for="fileNumber">File Number</label>
-										<input id="fileNumber" name="fileNumber" style="width: 154px" placeholder="File Number">
+										<input id="fileNumber" name="fileNumber" style="width: 182px" placeholder="File Number">
 									</div>
 								</div>
 
