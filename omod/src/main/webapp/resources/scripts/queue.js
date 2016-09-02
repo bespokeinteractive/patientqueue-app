@@ -50,8 +50,10 @@ var updateSearchResults = function(results){
 		
 		if (result.referralConcept && result.referralConcept.conceptId == 2548){
 			patient_name += " <span class='recent-lozenge'>From Lab</span>";
+		} else if (result.referralConcept && result.referralConcept.conceptId == 2395){
+			patient_name += " <span class='recent-lozenge'>From Radiology</span>";
+			
 		}
-		
 		dataRows.push([result.patientIdentifier, patient_name, result.age,  result.sex, result.visitStatus, result.status]);
 	});
 
