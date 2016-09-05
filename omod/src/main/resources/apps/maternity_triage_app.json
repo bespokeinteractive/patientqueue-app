@@ -1,0 +1,18 @@
+[
+  {
+    "id": "maternityapp.triage",        // unique id for this app, unique across all apps, typically starts with your module id
+    "description": "View patient in Maternity Triage queue",        // plain text or a message code (not displayed to end-users)
+    "extensions": [
+      {
+        "id": "maternityapp.opdqueue.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "Maternity Triage",        // text or message code (this is shown to the user)
+        "url": "patientqueueapp/maternityTriageQueue.page",        // clicking on the app icon goes to this link,
+        "order": 11,
+        "icon": "icon-tasks",        // see the uicommons style guide icons
+        "requiredPrivilege": "Access Maternity Triage"        // require this privilege to show the link
+      }
+    ]
+  }
+]
