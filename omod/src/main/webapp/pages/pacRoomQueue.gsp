@@ -1,5 +1,5 @@
 <%
-    ui.decorateWith("appui", "standardEmrPage", [title: "Delivery Room Queue"])
+    ui.decorateWith("appui", "standardEmrPage", [title: "Pac Room Queue"])
 
     ui.includeCss("uicommons", "datatables/dataTables_jui.css")
     ui.includeCss("coreapps", "patientsearch/patientSearchWidget.css")
@@ -15,7 +15,7 @@
 <script type="text/javascript">
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            window.location = emr.pageLink("maternityapp", "deliveryNotes", { "patientId" : row.patient.id, "queueId" : row.id })
+            window.location = emr.pageLink("maternityapp", "pac", { "patientId" : row.patient.id, "queueId" : row.id })
         }
     }
 	
@@ -25,7 +25,7 @@
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
         jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMaternityClinicQueue"),
                 {
-                    'maternityRoomConceptId': ${maternityDeliveryRoomConceptId},
+                    'maternityRoomConceptId': ${maternityPacRoomConceptId},
                 })
                 .success(function(results) {
                     updateSearchResults(results.data);
@@ -35,7 +35,7 @@
                 });
     };
 
-    var opdQueueLabel = "&nbsp; Delivery Room Queue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+    var opdQueueLabel = "&nbsp; PAC Room Queue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
 
     var patientInSystemLabel = "&nbsp; PATIENTS IN SYSTEM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
     jq(document).ready(function () {
@@ -317,7 +317,7 @@
 
             <li>
                 <i class="icon-chevron-right link"></i>
-                <a>Delivery Room Queue</a>
+                <a>Pac Room Queue</a>
             </li>
 
             <li>
@@ -330,7 +330,7 @@
     <div class="patient-header new-patient-header">
         <div class="demographics">
             <h1 class="name" style="border-bottom: 1px solid #ddd;">
-                <span class="page-label">DELIVERY ROOM QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                <span class="page-label">PAC ROOM QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
             </h1>
         </div>
 

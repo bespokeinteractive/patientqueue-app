@@ -9,7 +9,7 @@
 <script>
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            window.location = emr.pageLink("maternityapp", "triage", { "patientId" : row.patientId, "queueId" : row.id })
+            window.location = emr.pageLink("maternityapp", "triage", { "patientId" : row.patient.id, "queueId" : row.id })
         }
     }
     var handlePatientRowSelection =  new handlePatientRowSelection();
