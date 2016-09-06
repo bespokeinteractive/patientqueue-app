@@ -32,6 +32,11 @@ public class PatientQueueFragmentController {
 		List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
 		return SimpleObject.create("data", patientQueueObject);
 	}
+	public SimpleObject getPatientsInMaternityDeliveryRoomQueue(@RequestParam("maternityDeliveryRoomConceptId") Integer maternityDeliveryRoomConceptId,UiUtils ui){
+		List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue("", maternityDeliveryRoomConceptId, "", 0, 0);
+		List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id", "referralConcept.conceptId");
+		return SimpleObject.create("data", patientQueueObject);
+	}
 
 	public SimpleObject getPatientsInMchTriageQueue(@RequestParam("mchConceptId") Integer mchConceptId,UiUtils ui){
 		List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue("", mchConceptId, "", 0, 0);
