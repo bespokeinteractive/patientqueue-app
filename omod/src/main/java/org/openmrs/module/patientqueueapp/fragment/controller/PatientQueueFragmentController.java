@@ -27,6 +27,18 @@ import java.util.List;
 public class PatientQueueFragmentController {
 	public void controller() {}
 
+	public SimpleObject getPatientsInMaternityTriageQueue(@RequestParam("maternityConceptId") Integer maternityConceptId,UiUtils ui){
+		List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue("", maternityConceptId, "", 0, 0);
+		List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id");
+		return SimpleObject.create("data", patientQueueObject);
+	}
+
+	public SimpleObject getPatientsInMaternityClinicQueue(@RequestParam("maternityRoomConceptId") Integer maternityRoomConceptId,UiUtils ui){
+		List<OpdPatientQueue> patientQueues = Context.getService(PatientQueueService.class).listOpdPatientQueue("", maternityRoomConceptId, "", 0, 0);
+		List<SimpleObject> patientQueueObject = SimpleObject.fromCollection(patientQueues, ui, "patientName", "patientIdentifier", "age", "sex", "status", "visitStatus","patient.id", "id", "referralConcept.conceptId");
+		return SimpleObject.create("data", patientQueueObject);
+	}
+
 	public SimpleObject getPatientsInMchTriageQueue(@RequestParam("mchConceptId") Integer mchConceptId,UiUtils ui){
 		List<TriagePatientQueue> patientQueues = Context.getService(PatientQueueService.class).listTriagePatientQueue("", mchConceptId, "", 0, 0);
 		List<SimpleObject> patientQueueObject = new ArrayList<SimpleObject>();
