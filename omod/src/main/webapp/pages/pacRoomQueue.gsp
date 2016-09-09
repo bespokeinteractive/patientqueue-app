@@ -15,7 +15,7 @@
 <script type="text/javascript">
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            window.location = emr.pageLink("maternityapp", "pac", { "patientId" : row.patient.id, "queueId" : row.id })
+            window.location = emr.pageLink("maternityapp", "postAbortalCare", { "patientId" : row.patient.id, "queueId" : row.id })
         }
     }
 	
