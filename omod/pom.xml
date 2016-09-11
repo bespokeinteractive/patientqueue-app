@@ -106,10 +106,7 @@
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>referenceapplication-omod</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>mchapp-api</artifactId>
-		</dependency>
+
 	</dependencies>
 
 	<build>

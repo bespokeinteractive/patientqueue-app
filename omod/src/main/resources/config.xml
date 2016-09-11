@@ -26,6 +26,10 @@
 		<require_module version="2.0.4">
 			org.openmrs.module.uilibrary
 		</require_module>
+
+		<require_module version="1.0.2">
+			org.openmrs.module.mchapp
+		</require_module>
         
         <require_module version="2.4">
             org.openmrs.module.appframework

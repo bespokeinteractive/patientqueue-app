@@ -1,7 +1,9 @@
 package org.openmrs.module.patientqueueapp;
 
+import org.openmrs.Patient;
 import org.openmrs.Role;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.mchapp.api.MchService;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 
@@ -44,5 +46,22 @@ public class PatientQueueUtils {
             }
         }
         return SimpleObject.fromCollection(mchRoles, ui, "role", "description", "uuid");
+    }
+
+    public static String enrolledMCHProgram(Patient patient)
+    {
+        MchService mchService = Context.getService(MchService.class);
+        if(mchService.enrolledInANC(patient)){
+            return("ANC");
+        }
+        else if(mchService.enrolledInPNC(patient)){
+            return("PNC");
+        }
+        else if(mchService.enrolledInCWC(patient)){
+            return("CWC");
+        }
+        else{
+            return("N/A");
+        }
     }
 }

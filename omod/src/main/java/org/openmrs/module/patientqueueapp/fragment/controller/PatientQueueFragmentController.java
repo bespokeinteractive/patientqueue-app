@@ -11,7 +11,6 @@ import org.openmrs.module.hospitalcore.PatientQueueService;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueue;
 import org.openmrs.module.hospitalcore.model.OpdPatientQueueLog;
 import org.openmrs.module.hospitalcore.model.TriagePatientQueue;
-import org.openmrs.module.mchapp.api.MchService;
 import org.openmrs.module.patientqueueapp.PatientQueueUtils;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
@@ -53,7 +52,7 @@ public class PatientQueueFragmentController {
 			patientInQueue.put("visitStatus", patientQueue.getVisitStatus());
 			patientInQueue.put("patientId",patientQueue.getPatient().getId());
 			patientInQueue.put("id", patientQueue.getId());
-			patientInQueue.put("clinic",enrolledMCHProgram(patientQueue.getPatient()));
+			patientInQueue.put("clinic",PatientQueueUtils.enrolledMCHProgram(patientQueue.getPatient()));
 			if(patientQueue.getReferralConcept()!=null) {
 				patientInQueue.put("referralConcept.conceptId", patientQueue.getReferralConcept().getConceptId());
 			}
@@ -106,7 +105,7 @@ public class PatientQueueFragmentController {
 			}
 			else if(oPdConcept.equals(mchExamRoomConcept))
 			{
-				patientInQueue.put("clinic",enrolledMCHProgram(patientQueue.getPatient()));
+				patientInQueue.put("clinic",PatientQueueUtils.enrolledMCHProgram(patientQueue.getPatient()));
 			}
 
 			if(patientQueue.getReferralConcept()!=null) {
@@ -117,23 +116,6 @@ public class PatientQueueFragmentController {
 		return SimpleObject.create("data", patientQueueObject);
 	}
 
-	public String enrolledMCHProgram(Patient patient)
-	{
-		MchService mchService = Context.getService(MchService.class);
-		if(mchService.enrolledInANC(patient)){
-			return("ANC");
-		}
-		else if(mchService.enrolledInPNC(patient)){
-			return("PNC");
-		}
-		else if(mchService.enrolledInCWC(patient)){
-			return("CWC");
-		}
-		else{
-			return("N/A");
-		}
-	}
-	
 	public SimpleObject getPatientsInQueue(@RequestParam("opdId") Integer opdId, @RequestParam(value = "query", required = false) String query, UiUtils ui) {
 		Concept queueConcept = Context.getConceptService().getConcept(opdId);
 		ConceptAnswer queueAnswer = Context.getService(PatientQueueService.class).getConceptAnswer(queueConcept);
