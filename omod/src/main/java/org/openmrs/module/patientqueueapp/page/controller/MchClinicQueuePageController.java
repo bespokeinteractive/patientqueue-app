@@ -33,7 +33,7 @@ public class MchClinicQueuePageController {
         sessionContext.requireAuthentication();
         Boolean isClinicPriviledged = Context.hasPrivilege("Access MCH Clinic");
         Boolean isImmunizationPriviledged = Context.hasPrivilege("Access MCH Immunization");
-        if(!(isClinicPriviledged && isImmunizationPriviledged)){
+        if(!(isClinicPriviledged || isImmunizationPriviledged)){
             return "redirect: index.htm";
         }
 
