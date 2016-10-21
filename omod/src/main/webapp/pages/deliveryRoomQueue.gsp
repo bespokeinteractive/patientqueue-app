@@ -1,5 +1,5 @@
 <%
-    ui.decorateWith("appui", "standardEmrPage", [title: "MCH Clinic Queue"])
+    ui.decorateWith("appui", "standardEmrPage", [title: "Delivery Room Queue"])
 
     ui.includeCss("uicommons", "datatables/dataTables_jui.css")
     ui.includeCss("coreapps", "patientsearch/patientSearchWidget.css")
@@ -15,7 +15,7 @@
 <script type="text/javascript">
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            window.location = emr.pageLink("mchapp", "main", { "patientId" : row.patientId, "queueId" : row.id })
+            window.location = emr.pageLink("maternityapp", "deliveryNotes", { "patientId" : row.patient.id, "queueId" : row.id })
         }
     }
 	
@@ -23,20 +23,19 @@
     var getPatientsFromQueue = function(){
 
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
-        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchClinicQueue"),
+        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMaternityClinicQueue"),
                 {
-                    'mchConceptId': ${mchConceptId},
-                    'mchExaminationConceptId': ${mchImmunizationConceptId}
+                    'maternityRoomConceptId': ${maternityDeliveryRoomConceptId},
                 })
                 .success(function(results) {
-                    updateMCHSearchResults(results.data);
+                    updateSearchResults(results.data);
                 })
                 .fail(function(xhr, status, err) {
-                    updateMCHSearchResults([]);
+                    updateSearchResults([]);
                 });
     };
 
-    var opdQueueLabel = "&nbsp; MCH Clinic Queue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+    var opdQueueLabel = "&nbsp; Delivery Room Queue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
 
     var patientInSystemLabel = "&nbsp; PATIENTS IN SYSTEM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
     jq(document).ready(function () {
@@ -99,7 +98,10 @@
     }
     function ShowDashboard() {
         if (jq('#search-in-db').is(':checked')) {
-            jq('#dashboard').toggle(500);
+            jq('#dashboard'
+
+
+).toggle(500);
             jq('#dashboard').find('input:text').val('');
             jq('#dashboard').find('select option:first-child').attr("selected", "selected");
         }
@@ -296,7 +298,7 @@
 		color: #363463;
 		cursor: pointer;
 		float: right;
-		margin-left: 2px;
+		margin-left: 2pxmchclinic;
 		padding: 1px 6px;
 	}
 </style>
@@ -315,7 +317,7 @@
 
             <li>
                 <i class="icon-chevron-right link"></i>
-                <a>MCH Clinic Queue</a>
+                <a>Delivery Room Queue</a>
             </li>
 
             <li>
@@ -328,7 +330,7 @@
     <div class="patient-header new-patient-header">
         <div class="demographics">
             <h1 class="name" style="border-bottom: 1px solid #ddd;">
-                <span class="page-label">MCH CLINIC QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                <span class="page-label">DELIVERY ROOM QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
             </h1>
         </div>
 
@@ -463,23 +465,6 @@
                 </div>
             </div>
         </div>
-		
-		<div class="clear"></div>
-		<div id="queueRoles">
-			<% if (mchQueueRoles.size() == 0) { %>
-				<span>NO ROLES ASSIGNED</span>
-			<% } else { %>
-				<span>SELECT QUEUE</span>
-			<% } %>
-			
-			<% mchQueueRoles.each { role -> %>
-				<label>
-					<input type="checkbox" value="${role.uuid}" checked/>
-					${role.description}					
-				</label>
-			<% } %>
-			
-		</div>
     </div>
 </div>
 
@@ -498,10 +483,6 @@
 
                 <th class="ui-state-default" style="width: 80px;">
                     <div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
-                </th>
-
-                <th class="ui-state-default" style="width: 80px;">
-                    <div class="DataTables_sort_wrapper">Clinic<span class="DataTables_sort_icon"></span></div>
                 </th>
 
                 <th class="ui-state-default" style="width: 65px;">

@@ -1,5 +1,5 @@
 <%
-    ui.decorateWith("appui", "standardEmrPage", [title: "Mch Triage Queue"])
+    ui.decorateWith("appui", "standardEmrPage", [title: "Maternity Triage Queue"])
     ui.includeCss("uicommons", "datatables/dataTables_jui.css")
     ui.includeCss("coreapps", "patientsearch/patientSearchWidget.css")
     ui.includeJavascript("patientqueueapp", "jquery.dataTables.min.js")
@@ -9,22 +9,22 @@
 <script>
     function handlePatientRowSelection() {
         this.handle = function (row) {
-            window.location = emr.pageLink("mchapp", "triage", { "patientId" : row.patientId, "queueId" : row.id })
+            window.location = emr.pageLink("maternityapp", "triage", { "patientId" : row.patient.id, "queueId" : row.id })
         }
     }
     var handlePatientRowSelection =  new handlePatientRowSelection();
     var getPatientsFromQueue = function(){
         tableObject.find('td.dataTables_empty').html('<span><img class="search-spinner" src="'+emr.resourceLink('uicommons', 'images/spinner.gif')+'" /></span>');
-        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMchTriageQueue"),
+        jq.getJSON(emr.fragmentActionLink("patientqueueapp", "patientQueue", "getPatientsInMaternityTriageQueue"),
                 {
-                    'mchConceptId': ${mchConceptId}
+                    'maternityConceptId': ${maternityConceptId}
                 })
                 .success(function(results) {
-                    updateMCHSearchResults(results.data);
+                    updateSearchResults(results.data);
 
                 })
                 .fail(function(xhr, status, err) {
-                    updateMCHSearchResults([]);
+                    updateSearchResults([]);
                 });
     };
 	
@@ -130,7 +130,7 @@
 
             <li>
                 <i class="icon-chevron-right link"></i>
-                <a>Mch Triage Queue</a>
+                <a>Maternity Triage Queue</a>
             </li>
 
             <li>
@@ -143,7 +143,7 @@
     <div class="patient-header new-patient-header">
         <div class="demographics">
             <h1 class="name" style="border-bottom: 1px solid #ddd;">
-                <span>MCH TRIAGE QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                <span>MATERNITY TRIAGE QUEUE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
             </h1>
         </div>
 
@@ -161,22 +161,7 @@
             </form>
         </div>
 		
-		<div class="clear"></div>		
-		<div id="queueRoles">
-			<% if (mchQueueRoles.size() == 0) { %>
-				<span>NO ROLES ASSIGNED</span>
-			<% } else { %>
-				<span>SELECT QUEUE</span>
-			<% } %>
-			
-			<% mchQueueRoles.each { role -> %>
-				<label>
-					<input type="checkbox" value="${role.uuid}" checked/>
-					${role.description}					
-				</label>
-			<% } %>
-			
-		</div>
+		<div class="clear"></div>
     </div>
 </div>
 
@@ -194,10 +179,6 @@
 
             <th class="ui-state-default" style="width: 80px;">
                 <div class="DataTables_sort_wrapper">Age<span class="DataTables_sort_icon"></span></div>
-            </th>
-
-            <th class="ui-state-default" style="width: 80px;">
-                <div class="DataTables_sort_wrapper">Clinic<span class="DataTables_sort_icon"></span></div>
             </th>
 
             <th class="ui-state-default" style="width: 65px;">

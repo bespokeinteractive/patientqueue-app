@@ -3,7 +3,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>patientqueueapp</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>pom</packaging>
 	<name>Patient Queue App Module</name>
 	<description>2.0 ui for patient queue module</description>
@@ -119,11 +119,17 @@
 
                 <groupId>org.openmrs.module</groupId>
                 <artifactId>hospitalcore-api</artifactId>
-                <version>1.5.3</version>
+                <version>1.6.1</version>
                 <scope>provided</scope>
 
             </dependency>
-			
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>mchapp-api</artifactId>
+				<version>1.0.3</version>
+				<scope>provided</scope>
+			</dependency>
 
 			<!-- Begin OpenMRS core -->
 			
@@ -198,10 +204,10 @@
 					<artifactId>jgitflow-maven-plugin</artifactId>
 					<version>1.0-m5</version>
 					<configuration>
-            <noDeploy>true</noDeploy>
-            <flowInitContext>
-              <developBranchName>qa</developBranchName>
-            </flowInitContext>
+						<noDeploy>true</noDeploy>
+						<flowInitContext>
+							<developBranchName>qa</developBranchName>
+						</flowInitContext>
 					</configuration>
 				</plugin>
 			</plugins>

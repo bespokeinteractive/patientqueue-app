@@ -26,6 +26,10 @@
 		<require_module version="2.0.4">
 			org.openmrs.module.uilibrary
 		</require_module>
+
+		<require_module version="1.0.2">
+			org.openmrs.module.mchapp
+		</require_module>
         
         <require_module version="2.4">
             org.openmrs.module.appframework
@@ -41,6 +45,10 @@
 
 		<require_module version="1.0.1">
 			org.openmrs.module.referenceapplication
+		</require_module>
+
+		<require_module version="1.0.2">
+			org.openmrs.module.mchapp
 		</require_module>
 			
 	</require_modules>
@@ -63,6 +71,10 @@
 	<privilege>
 		<name>App: Access MCH Clinic</name>
 		<description>Able to access the MCH Clinic App</description>
+	</privilege>
+	<privilege>
+		<name>App: Access MCH Immunization</name>
+		<description>Able to access the MCH Immunization App</description>
 	</privilege>
 
 	<!-- All message codes should start with ${project.parent.artifactId}. -->
