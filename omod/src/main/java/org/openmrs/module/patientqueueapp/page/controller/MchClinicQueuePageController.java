@@ -45,6 +45,7 @@ public class MchClinicQueuePageController {
         model.addAttribute("mchImmunizationConceptId",mchExaminationConceptId);
         model.addAttribute("mchQueueRoles", PatientQueueUtils.getMchappUserRoles(ui, "Clinic"));
         model.addAttribute("date", new Date());
+        model.addAttribute("fptabIncludedInPNC", Context.getAdministrationService().getGlobalProperty("fptab.includedInPNC"));
         return null;
     }
 }
